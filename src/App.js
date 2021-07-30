@@ -1,9 +1,11 @@
 import React from 'react'
-
+import Header from './components/Header/Header';
 function App() {
   return (
     <div className="App">
-      <h1 className="text-secondary font-bold text-6xl">Heelo Fyp</h1>
+      <Header />
+      <div className='mt-9'>
+      </div>
     </div>
   );
 }
