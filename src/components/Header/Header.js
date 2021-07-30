@@ -9,7 +9,6 @@ const Header = () => {
   const handleBurgerMenu = () => {
     setBurgerMenuVisible((burgerMenuVisible) => !burgerMenuVisible )
   }
-  console.log(burgerMenuVisible)
   return (
     <nav className="">
       <div className="flex justify-between sm:justify-between items-center py-8 px-10 sm:px-20">
