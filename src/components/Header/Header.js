@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { ReactComponent as Logo } from "../../logo/logo.svg";
-import { ReactComponent as LogoText } from "../../logo/logoText.svg";
+import { ReactComponent as Logo } from "../logo/logo.svg";
+import { ReactComponent as LogoText } from "../logo/logoText.svg";
 import { UserCircleIcon, MenuIcon } from "@heroicons/react/outline";
 import { Transition } from '@headlessui/react'
 
@@ -10,7 +10,7 @@ const Header = () => {
     setBurgerMenuVisible((burgerMenuVisible) => !burgerMenuVisible )
   }
   return (
-    <nav className="">
+    <nav className="navigation">
       <div className="flex justify-between sm:justify-between items-center py-8 px-10 sm:px-20">
         <div className="nav-logo flex space-x-4 items-center cursor-pointer transform hover:scale-110 transition-all duration-300">
           <Logo className="w-10 h-10 fill-current text-greyText hover:text-secondary transition-all duration-300" />

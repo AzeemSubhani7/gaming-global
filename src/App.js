@@ -1,12 +1,18 @@
-import React from 'react'
-import Header from './components/Header/Header';
+// Libraries
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+// Pages
+import HomePage from "./pages/Home";
+import Staticstics from './pages/Statistics'
+
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <div className='mt-9'>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Switch>
+          <Route path='/' exact component={HomePage} />
+          <Route path='/statistics' component={Staticstics} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
