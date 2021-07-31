@@ -14,11 +14,11 @@ const Footer = () => {
             <Logo className="h-10 w-10 fill-current text-greyText hover:text-secondary transition-all duration-300" />
             <LogoText className="h-6 w-24 fill-current text-greyText hover:text-secondary transition-all duration-300" />
           </div>
-          <div className="text-sm text-greyText">
+          <div className="text-sm text-greyText text-center">
             This is Final Year project <br /> of YAM's squad.
           </div>
         </div>
-        <div className="useFull-Links flex flex-col">
+        <div className="useFull-Links flex flex-col items-center">
           <div className="text-lg text-greyText text-center border-secondary border-b-4 rounded-sm ">Useful Links</div>
           <div className="space-y-3 mt-3">
             <div className="flex cursor-pointer hover:text-secondary transition-all duration-300 space-x-3 items-center text-xs text-greyText"><ChevronRightIcon className="h-4 w-4 " /> Home</div>
@@ -30,7 +30,7 @@ const Footer = () => {
         <div className="flex flex-col">
         <div className="Contact-us text-lg text-center text-greyText border-secondary border-b-4 rounded-sm">Contact info</div>
         <div className="space-y-3 mt-3">
-          <div className="text-xs text-greyText"><i class="fas fa-envelope-open"></i> azeemforall4406148@gmail.com</div>
+          <div className="text-xs text-greyText"><i className="fas fa-envelope-open"></i> azeemforall4406148@gmail.com</div>
           <div className="flex items-center justify-center space-x-4">
             <i className="text-2xl text-greyText fab fa-facebook"></i>
             <i className="text-2xl text-greyText fab fa-twitter"></i>

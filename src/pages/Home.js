@@ -4,12 +4,26 @@ import React from 'react';
 // Components
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import LinearImageSection from '../components/LinearImageSection/LinearImageSection';
+
+// Images
+import glazImage from '../images/glaz_sniper.png'
 
 const HomePage = () => {
   return(
     <div>
       <Header />
-      <div className="text-white text-xl">Hey its Home Page</div>
+      <LinearImageSection imageUrl={glazImage}></LinearImageSection>
+      <div>xdxdxdxd</div>
+      <div>xdxdxdxd</div>
+      <div>xdxdxdxd</div>
+      <div>xdxdxdxd</div>
+      <div>xdxdxdxd</div>
+      <div>xdxdxdxd</div>
+      <div>xdxdxdxd</div>
+      <div>xdxdxdxd</div>
+      <div>xdxdxdxd</div>
+      <div>xdxdxdxd</div>
       <Footer />
     </div>
   )
