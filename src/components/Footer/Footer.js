@@ -19,7 +19,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="useFull-Links flex flex-col items-center">
-          <div className="text-lg text-greyText text-center border-secondary border-b-4 rounded-sm ">Useful Links</div>
+          <div className="text-lg text-greyText text-center cursor-default border-secondary border-b-4 rounded-sm ">Useful Links</div>
           <div className="space-y-3 mt-3">
             <div className="flex cursor-pointer hover:text-secondary transition-all duration-300 space-x-3 items-center text-xs text-greyText"><ChevronRightIcon className="h-4 w-4 " /> Home</div>
             <div className="flex cursor-pointer hover:text-secondary transition-all duration-300 space-x-3 items-center text-xs text-greyText"><ChevronRightIcon className="h-4 w-4 " /> Statistics</div>
@@ -28,14 +28,14 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col">
-        <div className="Contact-us text-lg text-center text-greyText border-secondary border-b-4 rounded-sm">Contact info</div>
+        <div className="Contact-us text-lg text-center text-greyText cursor-default border-secondary border-b-4 rounded-sm">Contact info</div>
         <div className="space-y-3 mt-3">
           <div className="text-xs text-greyText"><i className="fas fa-envelope-open"></i> azeemforall4406148@gmail.com</div>
           <div className="flex items-center justify-center space-x-4">
-            <i className="text-2xl text-greyText fab fa-facebook"></i>
-            <i className="text-2xl text-greyText fab fa-twitter"></i>
-            <i className="text-2xl text-greyText fab fa-linkedin"></i>
-            <i className="text-2xl text-greyText fab fa-github"></i>
+            <i className="text-2xl transform transition-all duration-300 hover:scale-110 hover:text-secondary cursor-pointer text-greyText fab fa-facebook"></i>
+            <i className="text-2xl transform transition-all duration-300 hover:scale-110 hover:text-secondary cursor-pointer text-greyText fab fa-twitter"></i>
+            <i className="text-2xl transform transition-all duration-300 hover:scale-110 hover:text-secondary cursor-pointer text-greyText fab fa-linkedin"></i>
+            <i className="text-2xl transform transition-all duration-300 hover:scale-110 hover:text-secondary cursor-pointer text-greyText fab fa-github"></i>
           </div>
       </div>
         </div>

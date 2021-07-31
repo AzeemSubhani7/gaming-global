@@ -36,7 +36,7 @@ const Header = () => {
         </div>
         {/*The Mobile version of Nav goes here*/}
         <div className="md:hidden nav-mobile" >
-          <button onClick={() => handleBurgerMenu()}>
+          <button className="outline-none" onClick={() => handleBurgerMenu()}>
             <MenuIcon className="w-8 h-8 text-greyText hover:text-secondary" />
           </button>
         </div>

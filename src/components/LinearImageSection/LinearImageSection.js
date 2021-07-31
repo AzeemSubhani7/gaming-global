@@ -23,11 +23,11 @@ const LinearImageSection = (props) => {
 
   return (
     <div
-      className="text-green-50 bg-cover bg-center bg-no-repeat h-1/2 sm:bg-center sm:bg-cover "
+      className="text-green-50  bg-cover bg-center bg-no-repeat h-1/2 sm:bg-center sm:bg-cover "
       style={styles(matches)}
     >
-      <div className="h-full w-full" style={linearBackgroundStyle}>
-        {props.children}
+      <div className="h-full w-full flex items-center justify-center lg:justify-start " style={linearBackgroundStyle}>
+        <div className="lg:ml-52">{props.children}</div>
       </div>
     </div>
   );
