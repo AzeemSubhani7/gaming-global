@@ -7,8 +7,8 @@ import { ReactComponent as LogoText } from "../logo/logoText.svg";
 
 const Footer = () => {
   return (
-    <div className=" flex flex-col text-white bg-primary-light">
-      <div style={{ height: "80%" }} className="footer-upper-part mt-4 flex flex-col sm:flex-row items-center sm:items-start space-y-8 sm:space-y-0 justify-around flex-wrap">
+    <div className=" flex flex-col text-white  m-5">
+      <div style={{ height: "80%" }} className="footer-upper-part rounded-xl bg-primary-light p-5 mt-4 flex flex-col sm:flex-row items-center sm:items-start space-y-8 sm:space-y-0 justify-around flex-wrap">
         <div className="Logo-And-Info space-y-5 flex flex-col justify-center items-start ">
           <div className="logo space-x-5 flex justify-between items-center ">
             <Logo className="h-10 w-10 fill-current text-greyText hover:text-secondary transition-all duration-300" />

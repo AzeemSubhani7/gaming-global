@@ -12,10 +12,12 @@ import glazImage from '../images/glaz_sniper.png'
 import rainbowSixSeige from '../images/r6_card.png'
 import fortnite from '../images/fortnite_card.png'
 import spaceLava from '../images/space_lava.png'
- 
+import rainbowSixCharm from '../images/rainbowSix_charms.png' 
+
 // Texts
 import { rainbowSixSeigeCardText } from '../utils/texts';
 import { fortniteCardText } from '../utils/texts';
+import { statisticsCardText } from '../utils/texts'
 
 const HomePage = () => {
   return(
@@ -53,7 +55,7 @@ const HomePage = () => {
         <LinearImageSection imageUrl={spaceLava}>
           <div style={{ width: '67vw' }} className="flex h-80 w-96 items-center justify-center ">
             <div className="flex flex-col items-center justify-center">
-              <h1 className="text-center self-start mt-5 md:mt-10 font-bold text-2xl md:text-3xl lg:text-5xl text-gray-200">Sensitivity Converter</h1>
+              <h1 className="text-center mt-5 md:mt-10 font-bold text-2xl md:text-3xl lg:text-5xl text-gray-200">Sensitivity Converter</h1>
               <p className="text-sm text-center mt-5 md:mt-10 text-greyText">
                 Our sensitivity Converter Will help user in a way <br />
                 that he does not have to get used to with a new <br />
@@ -65,7 +67,22 @@ const HomePage = () => {
           </div>
         </LinearImageSection>
       </div>
-      {/*SensitivitySection*/}
+      {/*StatisticsSections*/}
+      <div className="mt-10 w-auto">
+        <h1 className=" text-center mx-10  mt-5 md:mt-16 font-bold text-2xl md:text-3xl lg:text-5xl text-gray-200">GamingGlobal will provide you <br />in-game statistics</h1>
+        <div className="sensCard bg-primary-light my-10 mx-16 text-sm text-center md:text-base p-4 md:p-10 text-greyText lg:mx-80 rounded-xl" style={{ height: '40%' }}>
+          <p>{statisticsCardText}</p>
+          <button className={`my-5 md:mb-0 md:mt-10 ${defaultButtonStyles}`}>Check Statistics</button>
+        </div>
+      </div>
+      <div className="my-20">
+        <LinearImageSection imageUrl={rainbowSixCharm}>
+          <div className="flex items-center flex-col justify-center m-10">
+            <h1 className='text-center  mt-5 md:mt-16 font-bold text-2xl md:text-3xl lg:text-5xl text-gray-200' >Updates of Rainbow Six Seige and Fornite</h1>
+            <button className={`mt-14 ${defaultButtonStyles}`}>Learn More</button>
+          </div>
+        </LinearImageSection>
+      </div>
       <Footer />
     </div>
   )
