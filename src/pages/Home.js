@@ -1,5 +1,6 @@
-// Libraries
+// From Libraries
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 // Components
 import Header from '../components/Header/Header';
@@ -30,7 +31,7 @@ const HomePage = () => {
           <p
           className="text-greyText px-10 sm:px-0 mt-3 lg:mt-4 text-center md:text-left "
           >GamingGlobal is a web application where gamers can<br />find all necessary stuff under a single platform.</p>
-          <div className="flex items-center justify-center md:justify-start mt-4 lg:mt-4"><button className={`outline-none ${defaultButtonStyles}`}>Latest Patches</button></div>
+          <div className="flex items-center justify-center md:justify-start mt-4 lg:mt-4"><Link to="/patches"><button className={`outline-none ${defaultButtonStyles}`}>Latest Patches</button></Link></div>
         </div>
       </LinearImageSection>
       {/*TwoCardsSection*/}
@@ -40,13 +41,13 @@ const HomePage = () => {
           <div className="card-1 w-80 m-10 rounded-xl bg-primary-light flex items-center flex-col ">
             <img className="object-cover p-5  mt-4" alt="fortnite" style={{ height: '93px', width:'288px' }} src={rainbowSixSeige} />
             <p className="text-sm px-8 py-2 text-center text-greyText">{rainbowSixSeigeCardText}</p>
-            <button className={`mt-4 mb-6 outline-none  ${defaultButtonStyles}`} >Learn Seige</button>
+            <Link to="/courses"><button className={`mt-4 mb-6 outline-none  ${defaultButtonStyles}`} >Learn Seige</button></Link>
           </div>
 
           <div className="cards-2 w-80 m-10 rounded-xl bg-primary-light flex flex-col items-center  ">
             <img className="object-cover p-3 mt-4" alt="fortnite" style={{ height: '93px', width:'268px' }} src={fortnite} />
             <p className="text-sm px-8 py-2 text-center text-greyText">{fortniteCardText}</p>
-            <button className={`mt-4 mb-6 outline-none  ${defaultButtonStyles}`} >Learn Fortnite</button>
+            <Link to="/courses" ><button className={`mt-4 mb-6 outline-none  ${defaultButtonStyles}`} >Learn Fortnite</button></Link>
           </div>
         </div>
       </div>
@@ -61,7 +62,7 @@ const HomePage = () => {
                 that he does not have to get used to with a new <br />
                 sensitivity in another game
               </p>
-              <button className={`mt-5 md:mt-10 ${defaultButtonStyles}`}>Convert Sensitivity</button>
+              <Link to="/sensitivityconverter"><button className={`mt-5 md:mt-10 ${defaultButtonStyles}`}>Convert Sensitivity</button></Link>
             </div>
             
           </div>
@@ -72,14 +73,14 @@ const HomePage = () => {
         <h1 className=" text-center mx-10  mt-5 md:mt-16 font-bold text-2xl md:text-3xl lg:text-5xl text-gray-200">GamingGlobal will provide you <br />in-game statistics</h1>
         <div className="sensCard bg-primary-light my-10 mx-16 text-sm text-center md:text-base p-4 md:p-10 text-greyText lg:mx-80 rounded-xl" style={{ height: '40%' }}>
           <p>{statisticsCardText}</p>
-          <button className={`my-5 md:mb-0 md:mt-10 ${defaultButtonStyles}`}>Check Statistics</button>
+          <Link to="/statistics"><button className={`my-5 md:mb-0 md:mt-10 ${defaultButtonStyles}`}>Check Statistics</button></Link>
         </div>
       </div>
       <div className="my-20">
         <LinearImageSection imageUrl={rainbowSixCharm}>
           <div className="flex items-center flex-col justify-center m-10">
             <h1 className='text-center  mt-5 md:mt-16 font-bold text-2xl md:text-3xl lg:text-5xl text-gray-200' >Updates of Rainbow Six Seige and Fornite</h1>
-            <button className={`mt-14 ${defaultButtonStyles}`}>Learn More</button>
+            <Link to="/patches" ><button className={`mt-14 ${defaultButtonStyles}`}>Learn More</button></Link>
           </div>
         </LinearImageSection>
       </div>
