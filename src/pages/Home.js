@@ -79,7 +79,7 @@ const HomePage = () => {
       <div className="my-20">
         <LinearImageSection imageUrl={rainbowSixCharm}>
           <div className="flex items-center flex-col justify-center m-10">
-            <h1 className='text-center  mt-5 md:mt-16 font-bold text-2xl md:text-3xl lg:text-5xl text-gray-200' >Updates of Rainbow Six Seige and Fornite</h1>
+            <h1 className='text-center  mt-5 md:mt-16 font-bold text-2xl md:text-3xl xl:text-4xl 2xl:text-5xl text-gray-200' >Updates of Rainbow Six Seige and Fornite</h1>
             <Link to="/patches" ><button className={`mt-14 ${defaultButtonStyles}`}>Learn More</button></Link>
           </div>
         </LinearImageSection>
