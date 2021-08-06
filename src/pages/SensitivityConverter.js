@@ -54,6 +54,11 @@ const SensitivityConverterPage = () => {
     setSeigeToFortniteDpi("")
     alert("Enter Valid DPI")
  }
+
+  useEffect(() => {
+    window.scrollTo(0,0) 
+  },[])
+
   useEffect(() => {
     const checkInput = () => {
       let numbers = /^[0-9]+$/

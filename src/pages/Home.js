@@ -9,11 +9,11 @@ import { defaultButtonStyles } from '../components/Button/Button'
 import LinearImageSection from '../components/LinearImageSection/LinearImageSection';
 
 // Images
-import glazImage from '../images/glaz_sniper.png'
+import glazImage from '../images/glaz_sniper.jpg'
 import rainbowSixSeige from '../images/r6_card.png'
 import fortnite from '../images/fortnite_card.png'
-import spaceLava from '../images/space_lava.png'
-import rainbowSixCharm from '../images/rainbowSix_charms.png' 
+import spaceLava from '../images/space_lava.jpg'
+import rainbowSixCharm from '../images/rainbowSix_charms.jpg' 
 
 // Texts
 import { rainbowSixSeigeCardText } from '../utils/texts';
