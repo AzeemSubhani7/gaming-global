@@ -40,6 +40,7 @@ const RainbowSixSeigeStatisticsPage = () => {
       );
       setStatistics(data);
     } catch (error) {
+      setIsActive(true)
       setStatistics(null);
     }
   };
