@@ -10,6 +10,7 @@ import CoursesPage from "./pages/Courses";
 import SensitivityConverterPage from "./pages/SensitivityConverter";
 import RainbowSixSeigeStatisticsPage from "./pages/Statistics/RainbowSixSeigeStatistics";
 import FortniteStatisticsPage from "./pages/Statistics/FortniteStatistics";
+import SignUpPage from "./pages/SignUp";
 
 // Components
 
@@ -22,6 +23,7 @@ function App() {
           <Route path='/patches' component={PatchesPage} />
           <Route path='/courses' component={CoursesPage} />
           <Route path='/sensitivityconverter' component={SensitivityConverterPage} />
+          <Route path='/signup' component={SignUpPage} />
                 {/*Pages with 2 slashes*/}
           <Route path='/statistics/rainbowsixseige' component={RainbowSixSeigeStatisticsPage} />
           <Route path='/statistics/fortnite' component={FortniteStatisticsPage} />
