@@ -6,7 +6,6 @@ import axios from "axios";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import LinearImageSection from "../../components/LinearImageSection/LinearImageSection";
-import RenderError from "./RenderError";
 
 // ImageUrl
 import rainbowSixSeigeStatsImage from "../../images/rainbow_six_seige_statistics.jpg";
@@ -19,6 +18,8 @@ import {
 } from "../../utils/combinedClasses";
 import { defaultButtonStyles } from "../../components/Button/Button";
 import FetchRainbowSixStats from "./FetchRainbowSixStats";
+
+
 
 const RainbowSixSeigeStatisticsPage = () => {
   const [userName, setUserName] = useState("");
@@ -34,7 +35,7 @@ const RainbowSixSeigeStatisticsPage = () => {
         `https://api2.r6stats.com/public-api/stats/${userName}/${option}/generic`,
         {
           headers: {
-            Authorization: `Bearer a47121d7-16cc-41d9-8ddc-2faf9db9ce3c`,
+            Authorization: `Bearer ${process.env.REACT_APP_RAINBOW_SIX_API_KEY}`,
           },
         }
       );
@@ -49,7 +50,9 @@ const RainbowSixSeigeStatisticsPage = () => {
     if (!userName) return alert("Enter The In-Game-Name");
     if (!option) return alert("Select A platform");
 
+
     fetchStats(userName, option);
+
 
     if (statistics) {
       setIsActive(true);
