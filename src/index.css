@@ -18,6 +18,11 @@ body {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
+button:disabled,
+button[disabled]{
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 
 /*Styling For Radio Buttons xD */
 input[type="radio"] + label span {
