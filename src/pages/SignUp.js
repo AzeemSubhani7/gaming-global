@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import  validator from 'validator'
 import { Transition } from '@headlessui/react'
+import axios from 'axios';
 
 // Components
 import Header from '../components/Header/Header'
@@ -11,7 +12,7 @@ import Footer from '../components/Footer/Footer'
 import SignUpBackgroundImage from '../images/signUp_BG_optimized.jpg'
 
 // Utilitites
-
+import { baseUrl } from '../utils/backendUrl';
 
 const SignUpPage = () => {
 
@@ -36,6 +37,11 @@ const SignUpPage = () => {
         setIsError(true)
         return setNotIsAbleToSubmit(true);
       }
+      if(userName.length < 3) {
+        setErrorMsg("User Name should be at least 3 characters")
+        setIsError(true)
+        return setNotIsAbleToSubmit(true);
+      }
       if(!password) {
         setErrorMsg("Password is required!")
         setIsError(true)
@@ -53,8 +59,6 @@ const SignUpPage = () => {
       }
 
       if(validator.isEmail(email)) {
-        console.log(email)
-        console.log(validator.isEmail(email))
         setFormError(false)
       }
       else{
@@ -82,11 +86,15 @@ const SignUpPage = () => {
     isAbleToSubmit()
   }, [userName,password,email,confirmPassword,formError])
 
-    const handleSubmit = () => {
-      console.log(userName)
-      console.log(email)
-      console.log(password)
-      console.log(confirmPassword)
+    const handleSubmit = async () => {
+      const userToRegister = {
+        userName,
+        email,
+        password
+      }
+      // console.log(userToRegister)
+      const response =await axios.post(`http://localhost:4000/api/user`, userToRegister, {headers:{"Content-Type" : "application/json"}})
+      console.log(response)
     }
 
   return(
