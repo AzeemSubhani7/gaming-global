@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import  validator from 'validator'
 import { Transition } from '@headlessui/react'
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router';
 
 // Components
 import Header from '../components/Header/Header'
@@ -12,9 +14,10 @@ import Footer from '../components/Footer/Footer'
 import SignUpBackgroundImage from '../images/signUp_BG_optimized.jpg'
 
 // Utilitites
-import { baseUrl } from '../utils/backendUrl';
+import { loginUser } from '../redux/action'
+// import { baseUrl } from '../utils/backendUrl';
 
-const SignUpPage = () => {
+const SignUpPage = (props) => {
 
   const [userName, setUserName] = useState('')
   const [email, setEmail] = useState('')
@@ -22,14 +25,23 @@ const SignUpPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [formError, setFormError] = useState(true)
 
+  const [response, setResponse] = useState(null)
+
   const [isNotAbleToSubmit, setNotIsAbleToSubmit] = useState(true)
   const [errorMsg, setErrorMsg] = useState("There is an error")
   const [isError, setIsError] = useState(false)
+
+  // const [loginError, setLoginError] = useState(false)
+
+  // Creating an history object 
+  var history = useHistory();
+
 
   // useEffect for checking weather able to submit or not
   useEffect(()=>{
 
     setIsError(false)
+    // setLoginError(false)
     const isAbleToSubmit = () => {
       setNotIsAbleToSubmit(true)
       if(!userName) {
@@ -87,14 +99,32 @@ const SignUpPage = () => {
   }, [userName,password,email,confirmPassword,formError])
 
     const handleSubmit = async () => {
-      const userToRegister = {
-        userName,
-        email,
-        password
+      try{
+        const userToRegister = {
+          userName,
+          email,
+          password
+        }
+        // console.log(userToRegister)
+        const postResponse =await axios.post(`http://localhost:4000/api/user`, userToRegister, {headers:{"Content-Type" : "application/json"}})
+        props.loginUser(postResponse.data)
+        alert("user Registered!")
+        history.push("/")
+        
+        setResponse(postResponse)
+        console.log(response)
+        
+        
+        // console.log(response.data)
       }
-      // console.log(userToRegister)
-      const response =await axios.post(`http://localhost:4000/api/user`, userToRegister, {headers:{"Content-Type" : "application/json"}})
-      console.log(response)
+      catch(e){
+          console.log(e);
+          // setLoginError(true)
+          setIsError(true)
+          alert("Someting is wrong with Credentials!")
+          history.push("/signup")
+          console.log("Something is wronge with credentials TRY-AGAIN")
+      }
     }
 
   return(
@@ -164,4 +194,23 @@ const SignUpPage = () => {
   )
 }
 
-export default SignUpPage;
+// const mamStateToProps = (state) => {
+//   return {
+//     user: state.user
+//   }
+// }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: user => dispatch(loginUser(user))
+  }
+}
+
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    user: state
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);
