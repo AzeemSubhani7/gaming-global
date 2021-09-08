@@ -98,6 +98,19 @@ const SignUpPage = (props) => {
     isAbleToSubmit()
   }, [userName,password,email,confirmPassword,formError])
 
+  // useEffect for Cleaning
+  useEffect(() => {
+    return () => {
+        setUserName('')
+        setEmail('')
+        setPassword('')
+        setConfirmPassword('')
+        setFormError(true)
+        setResponse(null)
+        setNotIsAbleToSubmit(true)
+    }
+  },[])
+
     const handleSubmit = async () => {
       try{
         const userToRegister = {
