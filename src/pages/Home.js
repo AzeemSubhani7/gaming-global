@@ -27,7 +27,7 @@ const HomePage = () => {
       {/*HeroSection*/}
       <LinearImageSection imageUrl={glazImage}>
         <div className="mt-20">
-          <h1 className='px-10 text-gray-200 text-center md:text-left sm:px-0 font-bold lg:font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-6xl' > A gaming Experience <br></br>you nevet had<br></br>before</h1>
+          <h1 className='px-10 text-gray-200 text-center md:text-left sm:px-0 font-bold lg:font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-6xl' > A gaming Experience <br></br>you never had<br></br>before</h1>
           <p
           className="text-greyText px-10 sm:px-0 mt-3 lg:mt-4 text-center md:text-left "
           >GamingGlobal is a web application where gamers can<br />find all necessary stuff under a single platform.</p>

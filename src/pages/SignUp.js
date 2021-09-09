@@ -31,7 +31,6 @@ const SignUpPage = (props) => {
   const [errorMsg, setErrorMsg] = useState("There is an error")
   const [isError, setIsError] = useState(false)
 
-  // const [loginError, setLoginError] = useState(false)
 
   // Creating an history object 
   var history = useHistory();
@@ -126,19 +125,23 @@ const SignUpPage = (props) => {
         
         setResponse(postResponse)
         console.log(response)
-        
-        
-        // console.log(response.data)
       }
       catch(e){
           console.log(e);
-          // setLoginError(true)
+          
           setIsError(true)
           alert("Someting is wrong with Credentials!")
           history.push("/signup")
           console.log("Something is wronge with credentials TRY-AGAIN")
       }
     }
+      useEffect(() => {
+        // console.log(props)
+        if(props.user) {
+          history.push('/')
+        }
+      
+      })
 
   return(
     <div>
@@ -207,12 +210,6 @@ const SignUpPage = (props) => {
   )
 }
 
-// const mamStateToProps = (state) => {
-//   return {
-//     user: state.user
-//   }
-// }
-
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: user => dispatch(loginUser(user))
@@ -220,9 +217,9 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
+  // console.log(state)
   return {
-    user: state
+    user: state.userState
   }
 }
 
