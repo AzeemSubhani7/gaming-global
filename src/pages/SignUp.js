@@ -124,7 +124,9 @@ const SignUpPage = (props) => {
         history.push("/")
         
         setResponse(postResponse)
-        console.log(response)
+        if(response) {
+          console.log(response)
+        }
       }
       catch(e){
           console.log(e);
@@ -146,7 +148,7 @@ const SignUpPage = (props) => {
   return(
     <div>
       <Header />
-      <div className="p-5 flex items-center space-y-4 flex-col justify-center" style={{ height: '90vh', position: 'relative' }} >
+      <div className="flex items-center overflow-hidden space-y-4 flex-col justify-center" style={{ height: '90vh', position: 'relative' }} >
         <div className='rounded-xl' style={{ height: '90vh', width: '100%', backgroundImage: `url(${SignUpBackgroundImage})`, filter: 'blur(10px)', position: 'absolute', top: '10px', left: '10px' }} >
         
         </div>
@@ -163,18 +165,18 @@ const SignUpPage = (props) => {
           {errorMsg}
         </div>
           </Transition>
-        <div className='z-10 relative bg-primary-light flex-col space-y-4 rounded-xl sm:p-10 p-5 flex items-center justify-center'>
+        <div className='z-10 relative bg-primary-light flex-col space-y-4 rounded-xl p-5 flex items-center justify-center'>
           <h1 className='text-center font-semibold text-xl sm:text-2xl  text-gray-200'>Sign Up</h1>
           <input 
             name="userName"
-            className='bg-inputBg rounded-3xl outline-none sm:pr-20 py-2 pl-4 pr-10 placeholder-greyPlaceholder text-greyText text-sm' 
+            className='bg-inputBg rounded-3xl outline-none sm:pr-5 py-2 pl-4 pr-5 placeholder-greyPlaceholder text-greyText text-sm' 
             placeholder="Name"
             onChange={(event) => setUserName(event.target.value)}
             autoComplete='false'
             />
             <input 
             name="email"
-            className='bg-inputBg rounded-3xl outline-none sm:pr-20 py-2 pl-4 pr-10 placeholder-greyPlaceholder text-greyText text-sm' 
+            className='bg-inputBg rounded-3xl outline-none sm:pr-5 py-2 pl-4 pr-5 placeholder-greyPlaceholder text-greyText text-sm' 
             placeholder="Email"
             type='email'
             onChange={(event) => setEmail(event.target.value)}
@@ -182,7 +184,7 @@ const SignUpPage = (props) => {
             />
             <input 
             name="password"
-            className='bg-inputBg rounded-3xl outline-none sm:pr-20 py-2 pl-4 pr-10 placeholder-greyPlaceholder text-greyText text-sm' 
+            className='bg-inputBg rounded-3xl outline-none sm:pr-5 py-2 pl-4 pr-5 placeholder-greyPlaceholder text-greyText text-sm' 
             placeholder="Password"
             onChange={(event) => setPassword(event.target.value)}
             type='password'
@@ -190,7 +192,7 @@ const SignUpPage = (props) => {
             />
             <input 
             name="confirm-password"
-            className='bg-inputBg rounded-3xl outline-none sm:pr-20 py-2 pl-4 pr-10 placeholder-greyPlaceholder text-greyText text-sm' 
+            className='bg-inputBg rounded-3xl outline-none sm:pr-5 py-2 pl-4 pr-5 placeholder-greyPlaceholder text-greyText text-sm' 
             placeholder="Confirm Password"
             onChange={(event) => setConfirmPassword(event.target.value)}
             type='password'
@@ -217,7 +219,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-  // console.log(state)
   return {
     user: state.userState
   }

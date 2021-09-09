@@ -1,5 +1,5 @@
 // Libraries
-import React from "react";
+import React, { useEffect } from "react";
 import { ArrowSmRightIcon } from '@heroicons/react/solid'
 import { Link } from "react-router-dom";
 
@@ -16,6 +16,9 @@ import { linearImageHeadingClasses, secondaryHeadingClasses  } from '../utils/co
 
 
 const StatisticsPage = () => {
+  useEffect(() => {
+    window.scrollTo(0,0)
+  })
   return (
     <div>
       <Header />

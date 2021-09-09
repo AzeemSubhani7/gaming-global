@@ -64,7 +64,7 @@ const Header = (props) => {
             user 
             
             ? 
-              <Link to='/profile/me' className="flex hover:text-secondary transition-all duration-300 transform hover:scale-110">
+              <Link to='/profile/me' className="flex justify-center items-center hover:text-secondary transition-all duration-300 transform hover:scale-110">
                 <UserCircleIcon className="h-6 w-6 " />
                 <div className="text-lg ml-2">{user.user.userName}</div>
               </Link>
@@ -97,7 +97,7 @@ const Header = (props) => {
         leaveTo="-translate-y-full opacity-0"
       >
         <div
-          className={`nav-mobile md:hidden text-greyText space-y-2  p-10 ${
+          className={`nav-mobile lg:hidden text-greyText space-y-2  p-10 ${
             burgerMenuVisible ? "block" : "hidden"
           }`}
         >
