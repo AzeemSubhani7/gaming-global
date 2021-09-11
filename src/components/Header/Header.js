@@ -11,7 +11,7 @@ import { ReactComponent as Logo } from "../logo/logo.svg";
 import { ReactComponent as LogoText } from "../logo/logoText.svg";
 
 // Utils
-import { defaultButtonStyles } from "../Button/Button";
+import { defaultButtonStyles, secondaryButtonStyles } from "../Button/Button";
 
 const Header = (props) => {
   const [burgerMenuVisible, setBurgerMenuVisible] = useState(false);
@@ -64,7 +64,7 @@ const Header = (props) => {
             user 
             
             ? 
-              <Link to='/profile/me' className="flex justify-center items-center hover:text-secondary transition-all duration-300 transform hover:scale-110">
+              <Link to='/social' className="flex justify-center items-center hover:text-secondary transition-all duration-300 transform hover:scale-110">
                 <UserCircleIcon className="h-6 w-6 " />
                 <div className="text-lg ml-2">{user.user.userName}</div>
               </Link>
@@ -75,7 +75,7 @@ const Header = (props) => {
                 className={defaultButtonStyles}>Sign Up</button>
                 <button 
                 onClick={() => history.push('/login')}
-                className={defaultButtonStyles}>Log In</button>
+                className={secondaryButtonStyles}>Log In</button>
               </div>
           }
           
@@ -127,7 +127,7 @@ const Header = (props) => {
             ? 
             
               <Link 
-              to='/profile/me'
+              to='/social'
               className="flex  items-center justify-center text-center py-2 text-sm px-4 rounded-lg hover:bg-secondary hover:text-gray-50 transition-all duration-300">
                 <UserCircleIcon className=" h-6 w-6 mr-2" />
                  {user.user.userName}

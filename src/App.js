@@ -11,6 +11,7 @@ import SensitivityConverterPage from "./pages/SensitivityConverter";
 import RainbowSixSeigeStatisticsPage from "./pages/Statistics/RainbowSixSeigeStatistics";
 import FortniteStatisticsPage from "./pages/Statistics/FortniteStatistics";
 import SignUpPage from "./pages/SignUp";
+import SocialPage from "./pages/Social";
 
 // Components
 
@@ -24,6 +25,7 @@ function App() {
           <Route path='/courses' component={CoursesPage} />
           <Route path='/sensitivityconverter' component={SensitivityConverterPage} />
           <Route path='/signup' component={SignUpPage} />
+          <Route path='/social' exact component={SocialPage} />
                 {/*Pages with 2 slashes*/}
           <Route path='/statistics/rainbowsixseige' component={RainbowSixSeigeStatisticsPage} />
           <Route path='/statistics/fortnite' component={FortniteStatisticsPage} />
