@@ -26,7 +26,7 @@ const userReducer = (state = initialState, action) => {
       return { ...state,  user: action.payload }
     }
     case actionTypes.CLEAR_LOGGED_USER: {
-      return null
+      return { ...state, user: null}
     }
     default:
       return state;

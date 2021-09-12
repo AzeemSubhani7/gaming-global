@@ -130,20 +130,19 @@ const SignUpPage = (props) => {
       }
       catch(e){
           console.log(e);
-          
           setIsError(true)
           alert("Someting is wrong with Credentials!")
           history.push("/signup")
           console.log("Something is wronge with credentials TRY-AGAIN")
       }
     }
-      useEffect(() => {
-        // console.log(props)
-        if(props.user) {
-          history.push('/')
-        }
+  useEffect(() => {
+      console.log(props)
+      if(props.user.user) {
+      history.push('/')
+    }
       
-      })
+  })
 
   return(
     <div>
@@ -165,7 +164,7 @@ const SignUpPage = (props) => {
           {errorMsg}
         </div>
           </Transition>
-        <div className='z-10 relative bg-primary-light flex-col space-y-4 rounded-xl p-5 flex items-center justify-center'>
+        <div className='z-10 relative bg-primary-light flex-col space-y-4 rounded-xl p-10 flex items-center justify-center'>
           <h1 className='text-center font-semibold text-xl sm:text-2xl  text-gray-200'>Sign Up</h1>
           <input 
             name="userName"
