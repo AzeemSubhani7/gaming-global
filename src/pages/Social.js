@@ -36,7 +36,7 @@ const transperentDivCSS = {
 
 const SocialPage = ({ history, user, clearLoggedUser }) => {
   // console.log(history);
-  console.log(user);
+  // console.log(user);
   // console.log(clearLoggedUser)
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
   
 
   const logoutUser = () => {
-    console.log("User is about to logged out")
+    // console.log("User is about to logged out")
     clearLoggedUser()
     history.push('/signup')
   }

@@ -16,7 +16,7 @@ import { defaultButtonStyles, secondaryButtonStyles } from "../Button/Button";
 // -------------------------------------------------------- //
 
 const Header = ({ userName }) => {
-  console.log(userName)
+  // console.log(userName)
   const [burgerMenuVisible, setBurgerMenuVisible] = useState(false);
   const handleBurgerMenu = () => {
     setBurgerMenuVisible((burgerMenuVisible) => !burgerMenuVisible);
@@ -27,9 +27,9 @@ const Header = ({ userName }) => {
     <nav className="navigation">
       <div className="flex justify-between sm:justify-between items-center py-8 px-10 sm:px-20">
         <Link to="/">
-          <div className="nav-logo flex space-x-4 items-center cursor-pointer transform hover:scale-110 transition-all duration-300">
-            <Logo className="w-10 h-10 fill-current text-greyText hover:text-secondary transition-all duration-300" />
-            <LogoText className="h-5 hidden sm:inline-block sm: w-28 fill-current text-greyText hover:text-secondary transition-all duration-300" />
+          <div className="nav-logo flex space-x-4 items-center text-greyText cursor-pointer hover:text-secondary transform hover:scale-110 transition-all duration-300">
+            <Logo className="w-10 h-10 fill-current text-current " />
+            <LogoText className="h-5 hidden sm:inline-block sm: w-28 fill-current text-current " />
           </div>
         </Link>
         <div className="hidden lg:flex nav primary md:text-sm lg:text-md text-lg md:space-x-5 lg:space-x-10 text-greyText items-center font-medium">

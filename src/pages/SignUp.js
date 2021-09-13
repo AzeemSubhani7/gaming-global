@@ -125,7 +125,7 @@ const SignUpPage = ({ loginUser, user }) => {
         
         setResponse(postResponse)
         if(response) {
-          console.log(response)
+          // console.log(response)
         }
       }
       catch(e){
@@ -137,8 +137,8 @@ const SignUpPage = ({ loginUser, user }) => {
       }
     }
   useEffect(() => {
-    console.log(loginUser)
-    console.log(user)
+    // console.log(loginUser)
+    // console.log(user)
     //   console.log(props.user.user)
     //   if(props.user.user) {
     //   history.push('/')
