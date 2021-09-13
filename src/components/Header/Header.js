@@ -15,8 +15,8 @@ import { defaultButtonStyles, secondaryButtonStyles } from "../Button/Button";
 
 // -------------------------------------------------------- //
 
-const Header = (props) => {
-  console.log(props)
+const Header = ({ userName }) => {
+  console.log(userName)
   const [burgerMenuVisible, setBurgerMenuVisible] = useState(false);
   const handleBurgerMenu = () => {
     setBurgerMenuVisible((burgerMenuVisible) => !burgerMenuVisible);
@@ -57,12 +57,12 @@ const Header = (props) => {
         </div>
         <div className="hidden lg:flex nav-logo cursor-pointer  items-center  text-greyText">
           {
-            props.userName
+            userName
             
             ? 
               <Link to='/social' className="flex justify-center items-center hover:text-secondary transition-all duration-300 transform hover:scale-110">
                 <UserCircleIcon className="h-6 w-6 " />
-                <div className="text-lg ml-2">{props.userName}</div>
+                <div className="text-lg ml-2">{userName}</div>
               </Link>
             :
               <div className="space-x-4">
@@ -118,7 +118,7 @@ const Header = (props) => {
             Courses
           </Link>
           {
-            props.userName
+            userName
             
             ? 
             
@@ -126,7 +126,7 @@ const Header = (props) => {
               to='/social'
               className="flex  items-center justify-center text-center py-2 text-sm px-4 rounded-lg hover:bg-secondary hover:text-gray-50 transition-all duration-300">
                 <UserCircleIcon className=" h-6 w-6 mr-2" />
-                 {props.userName}
+                 {userName}
               </Link>
             
               
@@ -151,8 +151,10 @@ const Header = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state.userState)
   if(state.userState.user) return { userName: state.userState.user.userName }
+  else {
+    return { userName: null }
+  }
 }
 
 export default connect(mapStateToProps)(Header);

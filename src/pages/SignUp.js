@@ -17,7 +17,7 @@ import SignUpBackgroundImage from '../images/signUp_BG_optimized.jpg'
 import { loginUser } from '../redux/action'
 // import { baseUrl } from '../utils/backendUrl';
 
-const SignUpPage = (props) => {
+const SignUpPage = ({ loginUser, user }) => {
 
   const [userName, setUserName] = useState('')
   const [email, setEmail] = useState('')
@@ -119,7 +119,7 @@ const SignUpPage = (props) => {
         }
         // console.log(userToRegister)
         const postResponse =await axios.post(`http://localhost:4000/api/user`, userToRegister, {headers:{"Content-Type" : "application/json"}})
-        props.loginUser(postResponse.data)
+        loginUser(postResponse.data)
         alert("user Registered!")
         history.push("/")
         
@@ -137,10 +137,12 @@ const SignUpPage = (props) => {
       }
     }
   useEffect(() => {
-      console.log(props)
-      if(props.user.user) {
-      history.push('/')
-    }
+    console.log(loginUser)
+    console.log(user)
+    //   console.log(props.user.user)
+    //   if(props.user.user) {
+    //   history.push('/')
+    // }
       
   })
 

@@ -13,7 +13,9 @@ import storage from 'redux-persist/lib/storage' // Default to Local Storage
 
 // Initial State
 
-const initialState = null
+const initialState = {
+  user: null
+}
 
 // REDUCERS
 

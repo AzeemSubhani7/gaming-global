@@ -97,7 +97,9 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
               {user ? user.userName : null}{" "}
             </span>{" "}
             <br></br>
-            Welcome to <br></br> GamingGlobal
+              <span className='text-2xl font-semibold mt-10'>
+            Welcome to GamingGlobal
+              </span>
           </h1>
         </div>
       </LinearImageSection>
