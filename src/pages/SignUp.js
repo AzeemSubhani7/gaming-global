@@ -17,6 +17,16 @@ import SignUpBackgroundImage from '../images/signUp_BG_optimized.jpg'
 import { loginUser } from '../redux/action'
 // import { baseUrl } from '../utils/backendUrl';
 
+const linearBackgroundStyle = {
+  background:
+    "linear-gradient(0deg, rgba(31, 29, 41, 1) 1%, rgba(255, 255, 255, 0) 49%, rgba(31, 29, 41, 1) 97%)",
+  height: '90vh',
+  width: '100%',
+  position: 'absolute',
+  top: '-16px',
+  left: '0px'
+};
+
 const SignUpPage = ({ loginUser, user }) => {
 
   const [userName, setUserName] = useState('')
@@ -150,9 +160,10 @@ const SignUpPage = ({ loginUser, user }) => {
     <div>
       <Header />
       <div className="flex items-center overflow-hidden space-y-4 flex-col justify-center" style={{ height: '90vh', position: 'relative' }} >
-        <div className='rounded-xl' style={{ height: '90vh', width: '100%', backgroundImage: `url(${SignUpBackgroundImage})`, filter: 'blur(10px)', position: 'absolute', top: '10px', left: '10px' }} >
+        <div className='rounded-xl' style={{ height: '90vh', width: '100%', backgroundImage: `url(${SignUpBackgroundImage})`, filter: 'blur(10px)', position: 'absolute', top: '0px', left: '0px' }} >
         
         </div>
+        <div className='rounded-xl z-20' style={linearBackgroundStyle} />
         <Transition
           show={isError}
           enter='transition-all ease-in-out duration-700 transform'
@@ -162,11 +173,11 @@ const SignUpPage = ({ loginUser, user }) => {
           leaveFrom='opacity-100 translate-y-0'
           leaveTo="opacity-0 translate-y-full"
           >
-          <div className={` bg-primary-light flex items-center justify-center p-10 text-secondary font-semibold rounded-xl relative`}>
+          <div className={`border-secondary border-solid border-4 z-50 bg-primary-light flex items-center justify-center p-10 text-secondary font-semibold rounded-xl relative`}>
           {errorMsg}
         </div>
           </Transition>
-        <div className='z-10 relative bg-primary-light flex-col space-y-4 rounded-xl p-10 flex items-center justify-center'>
+        <div className='z-50 relative bg-primary-light flex-col space-y-4 rounded-xl p-10 flex items-center justify-center'>
           <h1 className='text-center font-semibold text-xl sm:text-2xl  text-gray-200'>Sign Up</h1>
           <input 
             name="userName"

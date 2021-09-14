@@ -85,12 +85,12 @@ const Header = ({ userName }) => {
       </div>
       <Transition
         show={burgerMenuVisible}
-        enter="transition-all ease-in-out duration-300 transform"
+        enter="transition-all ease-in-out duration-600 transform"
         enterFrom="-translate-x-full opacity-0"
         enterTo="translate-x-0 opacity-100"
         leave="transition-all ease-in-out duration-300 transform"
-        leaveFrom="translate-y-0 opacity-100"
-        leaveTo="-translate-y-full opacity-0"
+        leaveFrom="translate-x-0 opacity-100"
+        leaveTo="-translate-x-full opacity-0"
       >
         <div
           className={`nav-mobile lg:hidden text-greyText space-y-2  p-10 ${

@@ -25,7 +25,7 @@ import socialMediaImage from "../images/social_media_home_page.jpeg";
 import { secondaryButtonStyles } from "../components/Button/Button";
 
 const transperentDivCSS = {
-  boxShadow: "inset 0 0 2000px rgba(255, 255, 255, .4)",
+  boxShadow: "inset 0 0 2000px rgba(255, 255, 255, .3)",
   filter: "blur(10px)",
   height: "120%",
   width: "120%",
@@ -97,7 +97,7 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
               {user ? user.userName : null}{" "}
             </span>{" "}
             <br></br>
-              <span className='text-2xl font-semibold mt-10'>
+              <span className='text-3xl font-semibold mt-10'>
             Welcome to GamingGlobal
               </span>
           </h1>
