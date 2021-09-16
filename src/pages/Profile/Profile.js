@@ -2,7 +2,7 @@
 import React, {Fragment} from 'react'
 import { connect } from 'react-redux';
 import { Transition } from '@headlessui/react';
-import { secondaryButtonStyles } from '../../components/Button/Button';
+import { defaultButtonStyles, secondaryButtonStyles } from '../../components/Button/Button';
 // Components
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -70,7 +70,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
       <Header />
       <div className='profile-page-container'>
           {/*First Section*/}
-          <div className='bg-primary-light m-5 rounded-xl p-5 flex items-center flex-col relative'>
+          <div className='bg-primary-light overflow-hidden m-5 rounded-xl p-5 flex items-center flex-col relative'>
             <PencilIcon
               onClick={() => {
               console.log("Edit this profile")
@@ -84,18 +84,23 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
               Edit  
             </div>
 
-              <div className='bg-primary-dark lg:h-64 lg:w-64 h-44 w-44 overflow-hidden relative border-secondary border-4 rounded-full'>
-                <img src='https://picsum.photos/id/27/200/300'
+              <div className='bg-primary-dark lg:h-64 lg:w-64 h-44 w-44 overflow-hidden relative border-greyText border-4 rounded-full'>
+                <img src='https://picsum.photos/200/300?grayscale'
                      className='absolute lg:h-64 lg:w-64 h-44 w-44'
                      alt='profile of a user'
                 />
               </div>
 
-              <div className=' text-center font-medium text-3xl mt-3 text-greyText'>
+              <div className='text-center font-medium text-3xl mt-3 text-greyText'>
                 Azeem
               </div>
+              {/*A bit of logic in future*/}
+              <div className='my-2 flex space-x-4'>
+                <button className={defaultButtonStyles}>Follow</button>
+                <button className={secondaryButtonStyles}>Whisper</button>
+              </div>
 
-              <div className="bg-primary-dark flex items-center justify-evenly mt-3 px-10 py-2 rounded-xl">
+              <div className="bg-primary-light md:bg-primary-dark flex items-center justify-evenly mt-3 px-10 py-2 rounded-xl">
                 <div className='m-3 divide-y-2 divide-greyText flex flex-col space-y-4 items-center'>
                   <p className='font-medium text-xl text-greyText'>Followers</p>
 
@@ -108,6 +113,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
               </div>
 
           </div>
+          {/*Second Section*/}
       </div>
       <Footer />
     </div>
