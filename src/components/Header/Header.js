@@ -1,5 +1,5 @@
 // Libraries
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { UserCircleIcon, MenuIcon } from "@heroicons/react/outline";
 import { Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
@@ -27,7 +27,7 @@ const Header = ({ userName }) => {
     <nav className="navigation">
       <div className="flex justify-between sm:justify-between items-center py-8 px-10 sm:px-20">
         <Link to="/">
-          <div className="nav-logo flex space-x-4 items-center text-greyText cursor-pointer hover:text-secondary transform hover:scale-110 transition-all duration-300">
+          <div className="nav-logo flex space-x-4 items-center text-greyText cursor-pointer hover:text-secondary transform hover:scale-110 transition-all duration-600">
             <Logo className="w-10 h-10 fill-current text-current " />
             <LogoText className="h-5 hidden sm:inline-block sm: w-28 fill-current text-current " />
           </div>
@@ -84,6 +84,7 @@ const Header = ({ userName }) => {
         </div>
       </div>
       <Transition
+        as={Fragment}
         show={burgerMenuVisible}
         enter="transition-all ease-in-out duration-600 transform"
         enterFrom="-translate-x-full opacity-0"

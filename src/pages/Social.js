@@ -1,5 +1,5 @@
 // Libraries
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -9,6 +9,8 @@ import {
   AnnotationIcon,
   LogoutIcon
 } from "@heroicons/react/outline";
+
+import { Transition } from "@headlessui/react";
 
 // Actions
 import { clearLoggedUser } from "../redux/action";
@@ -37,6 +39,7 @@ const transperentDivCSS = {
 const SocialPage = ({ history, user, clearLoggedUser }) => {
   // console.log(history);
   // console.log(user);
+  // console.log(user._id)
   // console.log(clearLoggedUser)
 
   useEffect(() => {
@@ -45,32 +48,49 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
     }
   })
 
+  const handleBannedUser = () => {
+    clearLoggedUser();
+    history.push('/')
+  }
+
   if (user) {
     if (user.isBanned) {
       return (
-        <div className="flex items-center justify-center">
-          <div className="mt-10 w-auto">
-            <h1 className=" text-center mx-10  mt-5 md:mt-16 font-bold text-2xl md:text-3xl lg:text-5xl text-gray-200">
-              GamingGlobal Has Banned you <br />
-              from the application.
-            </h1>
-            <div
-              className="sensCard bg-primary-light my-10 mx-16 text-sm text-center md:text-base p-4 md:p-10 text-greyText lg:mx-80 rounded-xl"
-              style={{ height: "40%" }}
-            >
-              <p>
-                You are banned because you didn't follow the community rules and guidelines.
-              </p>
-              <Link to="/">
-                <button
-                  className={`my-5 md:mb-0 md:mt-10 ${secondaryButtonStyles}`}
-                >
-                  Home
-                </button>
-              </Link>
+        <Transition
+          show
+          as={Fragment}
+          enter="transition-all ease-in-out duration-700 transform"
+          enterFrom="opacity-0 translate-y-full"
+          enterTo="translate-y-0 opacity-100"
+          leave="transition-all ease-in-out duration-700 transform"
+          leaveFrom="opacity-100 translate-y-0"
+          leaveTo="opacity-0 translate-y-full"
+      >
+          <div className="flex items-center justify-center">
+            <div className="mt-10 w-auto">
+              <h1 className=" text-center mx-10  mt-5 md:mt-16 font-bold text-2xl md:text-3xl lg:text-5xl text-gray-200">
+                GamingGlobal Has Banned <span className='text-secondary font-extrabold'>{user.userName}</span> <br />
+                from the application.
+              </h1>
+              <div
+                className="sensCard bg-primary-light my-10 mx-16 text-sm text-center md:text-base p-4 md:p-10 text-greyText lg:mx-80 rounded-xl"
+                style={{ height: "40%" }}
+              >
+                <p>
+                  You are banned because you didn't follow the community rules and guidelines.
+                </p>
+                <div>
+                  <button
+                    onClick={() => handleBannedUser()}
+                    className={`my-5 md:mb-0 md:mt-10 ${secondaryButtonStyles}`}
+                  >
+                    Home
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </Transition>
       );
     }
   }
@@ -80,7 +100,7 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
   const logoutUser = () => {
     // console.log("User is about to logged out")
     clearLoggedUser()
-    history.push('/signup')
+    history.push('/login')
   }
   
     return (
@@ -113,7 +133,7 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
       <div className="social-header p-5">
         <div className="bg-primary-light flex flex-col md:flex-row space-y-3 md:space-y-0 items-center justify-evenly  text-gray-200 font-semibold text-md py-10 rounded-xl">
           <Link
-            to="/profile/me"
+            to={`/profile/${user ? user._id : null}`}
             className="flex items-center justify-evenly hover:text-secondary cursor-pointer transform transition-all duration-300 hover:scale-105"
           >
             <UserIcon className="w-6 h-6 mr-2" /> Profile
