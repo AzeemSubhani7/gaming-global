@@ -49,9 +49,11 @@ const LoginPage = ({ user, history, loginUser }) => {
 
 
   // Initial useEffect
-  // useEffect(() => {
-  //   if (user) return history.push("/");
-  // });
+  useEffect(() => {
+    if (user) {
+      history.push("/")
+    }
+  });
 
   // UseEffect for data validation
   useEffect(() => {
@@ -258,7 +260,7 @@ const LoginPage = ({ user, history, loginUser }) => {
               className={`${secondaryButtonStyles} mt-3`}
               onClick={() => {
                 setIsOpen(false)
-                history.push('/')
+                user ? history.push('/') : history.push('/login')
               }}
             >
               OKAY

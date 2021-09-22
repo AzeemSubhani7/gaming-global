@@ -13,6 +13,7 @@ import { PencilIcon } from '@heroicons/react/outline';
 // Actions
 import { clearLoggedUser } from '../../redux/action';
 
+
 const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
   // console.log(user)
   // console.log(history)
@@ -83,6 +84,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
               style={{ top: '40px', right: "20px" }}>
               Edit  
             </div>
+
 
               <div className='bg-primary-dark lg:h-64 lg:w-64 h-44 w-44 overflow-hidden relative border-greyText border-4 rounded-full'>
                 <img src='https://picsum.photos/200/300?grayscale'
