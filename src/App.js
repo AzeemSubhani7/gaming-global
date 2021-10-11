@@ -14,6 +14,7 @@ import SignUpPage from "./pages/SignUp";
 import SocialPage from "./pages/Social";
 import LoginPage from "./pages/Login";
 import ProfilePage from "./pages/Profile/Profile";
+import FeedPage from "./pages/Feed/Feed";
 
 // Components
 
@@ -32,7 +33,8 @@ function App() {
                 {/*Pages with 2 slashes*/}
           <Route path='/statistics/rainbowsixseige' component={RainbowSixSeigeStatisticsPage} />
           <Route path='/statistics/fortnite' component={FortniteStatisticsPage} />
-          <Route path='/profile/:id' component={ProfilePage} />
+          <Route path='/profile/user/:id' exact component={ProfilePage} />
+          <Route path='/profile/feed' component={FeedPage} />
 
       </Switch>
     </BrowserRouter>

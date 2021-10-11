@@ -29,6 +29,7 @@ import { secondaryButtonStyles } from "../components/Button/Button";
 const transperentDivCSS = {
   boxShadow: "inset 0 0 2000px rgba(255, 255, 255, .3)",
   filter: "blur(10px)",
+  background: "rgba(255, 255, 255, 0.1)",
   height: "120%",
   width: "120%",
   position: "absolute",
@@ -37,10 +38,6 @@ const transperentDivCSS = {
 };
 
 const SocialPage = ({ history, user, clearLoggedUser }) => {
-  // console.log(history);
-  // console.log(user);
-  // console.log(user._id)
-  // console.log(clearLoggedUser)
 
   useEffect(() => {
     if(!user) {
@@ -133,13 +130,13 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
       <div className="social-header p-5">
         <div className="bg-primary-light flex flex-col md:flex-row space-y-3 md:space-y-0 items-center justify-evenly  text-gray-200 font-semibold text-md py-10 rounded-xl">
           <Link
-            to={`/profile/${user ? user._id : null}`}
+            to={`/profile/user/${user ? user._id : null}`}
             className="flex items-center justify-evenly hover:text-secondary cursor-pointer transform transition-all duration-300 hover:scale-105"
           >
             <UserIcon className="w-6 h-6 mr-2" /> Profile
           </Link>
           <Link
-            to="/profile/me"
+            to="/profile/feed"
             className="flex items-center justify-evenly hover:text-secondary cursor-pointer transform transition-all duration-300 hover:scale-105"
           >
             <TableIcon className="w-6 h-6 mr-2" /> Feed
