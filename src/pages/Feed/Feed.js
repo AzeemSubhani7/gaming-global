@@ -10,6 +10,7 @@ import Loader from "react-loader-spinner";
 // Views
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import Post from "../../components/Post/Post";
 import { defaultButtonStyles, secondaryButtonStyles } from "../../components/Button/Button";
 
 // BaseUrl
@@ -68,7 +69,7 @@ const FeedPage = ({ userId, token, history }) => {
             ></textarea>
             <div className="flex items-end flex-col">
               <label className={`w-36 mt-2 h-11 flex  rounded-2xl justify-center flex-col  items-center space-x-3 ${secondaryButtonStyles} `}>
-                <span className="font-medium text-base">Select a file</span>
+                <span className="font-medium text-base">Add Image</span>
                 <input type="file" className="hidden" />
               </label>
               <button 
@@ -162,7 +163,14 @@ const FeedPage = ({ userId, token, history }) => {
 
 
   {/* JSX FOR OPENING A MODAL FOR Loading */}
-
+    
+  
+  {/* JSX for rendering the posts */}
+    <div className='w-full flex items-center justify-center'>
+      <div className='py-8 w-1/2 flex items-center justify-center'>
+          <Post />
+      </div>
+    </div>
     <Footer />
   </div>
   );
