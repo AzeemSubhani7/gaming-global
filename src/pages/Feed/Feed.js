@@ -54,11 +54,11 @@ const FeedPage = ({ userId, token, history }) => {
   return (
     <div className="feed-page">
     <Header />
-    <div className="container">
+    <div className="flex flex-col items-center justify-center">
       {/* Create Post Component*/}
-      <div className="create-post flex p-3 items-center justify-center" style={{ width: '100vw' }}>
+      <div className="create-post flex items-center justify-center" style={{ width: '100vw' }}>
         <div
-          className="bg-primary-light flex sm:w-52 md:w-80 lg:w-2/4  px-4 justify-center relative rounded-lg py-4"
+          className="bg-primary-light flex w-52 sm:w-80 md:w-96 lg:w-2/4  px-4 justify-center relative rounded-lg py-4"
         >
           <div className="input mt-6 h-2/4 w-full rounded-md ">
             <textarea
@@ -168,7 +168,7 @@ const FeedPage = ({ userId, token, history }) => {
   {/* JSX for rendering the posts */}
     <div className='w-full flex items-center justify-center'>
       <div className='py-8 w-1/2 flex items-center justify-center'>
-          <Post />
+          
       </div>
     </div>
     <Footer />

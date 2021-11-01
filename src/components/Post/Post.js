@@ -4,7 +4,7 @@ import React from "react";
 const Post = () => {
   return (
     <div className="Post-renderer">
-      <div className="bg-primary-light rounded-lg text-greyText py-2 px-3">
+      <div className="bg-primary-light rounded-lg sm:w-52 md:w-80 lg:w-2/4 text-greyText py-2 px-3">
         <div className="flex items-center rounded-lg p-2 justify-between max-h-20">
           <div className="flex space-x-4 items-center">
             <img
