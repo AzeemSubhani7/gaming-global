@@ -152,7 +152,9 @@ const Header = ({ userName }) => {
 };
 
 const mapStateToProps = (state) => {
-  if(state.userState.user) return { userName: state.userState.user.userName }
+  if(state.userState) {
+    if (state.userState.user) return { userName: state.userState.user.userName }
+  }
   else {
     return { userName: null }
   }

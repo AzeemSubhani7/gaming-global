@@ -22,7 +22,7 @@ import {
   linearImageHeadingClasses,
   paragraphClasses,
   inputClasses,
-  secondaryHeadingClasses
+  secondaryHeadingClasses,
 } from "../../utils/combinedClasses";
 import RenderError from "./RenderError";
 
@@ -31,38 +31,42 @@ const FortniteStatisticsPage = () => {
   const [option, setOption] = useState("");
   const [fortniteStats, setFortniteStats] = useState(null);
   const [isActiveSpinner, setIsActiveSpinner] = useState(false);
-  const [showError, setShowError] = useState(false)
-
-
+  const [showError, setShowError] = useState(false);
 
   const fetchStats = async (userName, platform) => {
-    setShowError(false)
+    setShowError(false);
     console.log("The username is: ", userName);
     console.log("The platform is: ", platform);
 
     try {
-      setFortniteStats(null)
+      setFortniteStats(null);
       setIsActiveSpinner(true);
       const { data } = await axios.get(
-        `https://fortnite-api.com/v2/stats/br/v2?name=${userName}`
+        `https://fortnite-api.com/v2/stats/br/v2?name=${userName}`,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Origin": "https://fortnite-api.com"
+          },
+        }
       );
       const stats = data;
-      setUserName("")
-      if(!stats) {
-        return setShowError(true)
+      setUserName("");
+      if (!stats) {
+        return setShowError(true);
       }
-        setFortniteStats(stats)
-        setIsActiveSpinner(false);
+      setFortniteStats(stats);
+      setIsActiveSpinner(false);
     } catch (error) {
       alert(error);
-      setIsActiveSpinner(false)
-      setShowError(true)
+      setIsActiveSpinner(false);
+      setShowError(true);
     }
   };
 
   useEffect(() => {
-    console.log(fortniteStats)
-  },[fortniteStats])
+    console.log(fortniteStats);
+  }, [fortniteStats]);
   const handleClick = () => {
     if (!userName) return alert("Enter The In-Game-Name");
     if (!option) return alert("Select A platform");
@@ -152,10 +156,16 @@ const FortniteStatisticsPage = () => {
       </div>
 
       {isActiveSpinner ? (
-        <div style={{ display: "flex", alignItems: 'center', justifyContent: 'center' }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Loader
             visible={isActiveSpinner}
-            style={{ margin: 'auto' }}
+            style={{ margin: "auto" }}
             type="MutatingDots"
             secondaryColor="#d31c3e"
             color="#D31C3E"
@@ -165,51 +175,55 @@ const FortniteStatisticsPage = () => {
         </div>
       ) : null}
 
-        {/*Actuall Statistics Work!*/}
+      {/*Actuall Statistics Work!*/}
 
-        {
-
-          fortniteStats ?
-
-          <Transition
-            show
-            enter="transition-all ease-in-out duration-700 transform"
-            enterFrom="opacity-0 translate-y-full"
-            enterTo="translate-y-0 opacity-100"
-            leave="transition-all ease-in-out duration-700 transform"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-full"
-          >
-            <div className="flex flex-col items-center justify-center">
-              <h1 className={`mt-10 mb-10 ${secondaryHeadingClasses}`}>{fortniteStats.data.account.name}</h1>
-              <div className="flex flex-wrap justify-center items-center" >
-                <FortniteStatisticsCard stats={fortniteStats.data.stats.all.duo} title='Duo' />
-                <FortniteStatisticsCard stats={fortniteStats.data.stats.all.ltm} title='LTM' />
-                <FortniteStatisticsCard stats={fortniteStats.data.stats.all.overall} title='Overall' />
-                <FortniteStatisticsCard stats={fortniteStats.data.stats.all.solo} title='Solo' />
-                <FortniteStatisticsCard stats={fortniteStats.data.stats.all.squad} title='Squad' />
-              </div>
+      {fortniteStats ? (
+        <Transition
+          show
+          enter="transition-all ease-in-out duration-700 transform"
+          enterFrom="opacity-0 translate-y-full"
+          enterTo="translate-y-0 opacity-100"
+          leave="transition-all ease-in-out duration-700 transform"
+          leaveFrom="opacity-100 translate-y-0"
+          leaveTo="opacity-0 translate-y-full"
+        >
+          <div className="flex flex-col items-center justify-center">
+            <h1 className={`mt-10 mb-10 ${secondaryHeadingClasses}`}>
+              {fortniteStats.data.account.name}
+            </h1>
+            <div className="flex flex-wrap justify-center items-center">
+              <FortniteStatisticsCard
+                stats={fortniteStats.data.stats.all.duo}
+                title="Duo"
+              />
+              <FortniteStatisticsCard
+                stats={fortniteStats.data.stats.all.ltm}
+                title="LTM"
+              />
+              <FortniteStatisticsCard
+                stats={fortniteStats.data.stats.all.overall}
+                title="Overall"
+              />
+              <FortniteStatisticsCard
+                stats={fortniteStats.data.stats.all.solo}
+                title="Solo"
+              />
+              <FortniteStatisticsCard
+                stats={fortniteStats.data.stats.all.squad}
+                title="Squad"
+              />
             </div>
-          </Transition>
-          :
-          null
-
-
-        }
-
-        {/*If there was an error*/}
-
-        {
-
-          showError ?
-          <div className="p-5">
-            <RenderError /> 
           </div>
-          :
-          null
+        </Transition>
+      ) : null}
 
-          
-        }
+      {/*If there was an error*/}
+
+      {showError ? (
+        <div className="p-5">
+          <RenderError />
+        </div>
+      ) : null}
 
       <Footer />
     </div>

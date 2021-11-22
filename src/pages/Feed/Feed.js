@@ -10,11 +10,11 @@ import Loader from "react-loader-spinner";
 // Views
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Post from "../../components/Post/Post";
 import { defaultButtonStyles, secondaryButtonStyles } from "../../components/Button/Button";
 
 // BaseUrl
 import { baseUrl } from "../../utils/backendUrl";
+import ShowPosts from "../../components/Post/ShowPost";
 
 const FeedPage = ({ userId, token, history }) => {
 
@@ -27,6 +27,7 @@ const FeedPage = ({ userId, token, history }) => {
   const handleChange = (e) => {
     setPostText(e.target.value)
   }
+
 
   const createPost = async () => {
     setIsActiveSpinner(true)
@@ -50,6 +51,7 @@ const FeedPage = ({ userId, token, history }) => {
       console.log(error)
     }
   }
+
 
   return (
     <div className="feed-page">
@@ -83,6 +85,11 @@ const FeedPage = ({ userId, token, history }) => {
           </div>
         </div>
       </div>
+
+      <div style={{ width: '100vw' }} className='mt-20'>
+        <ShowPosts token={token} />
+      </div>
+
     </div>
     {isActiveSpinner ? (
       <div style={{ display: "flex", alignItems: 'center', justifyContent: 'center' }}>

@@ -15,6 +15,7 @@ import SocialPage from "./pages/Social";
 import LoginPage from "./pages/Login";
 import ProfilePage from "./pages/Profile/Profile";
 import FeedPage from "./pages/Feed/Feed";
+import PostPage from "./pages/Feed/PostPage";
 
 // Components
 
@@ -35,6 +36,7 @@ function App() {
           <Route path='/statistics/fortnite' component={FortniteStatisticsPage} />
           <Route path='/profile/user/:id' exact component={ProfilePage} />
           <Route path='/profile/feed' component={FeedPage} />
+          <Route path ='/posts/:id' component={PostPage} />
 
       </Switch>
     </BrowserRouter>
