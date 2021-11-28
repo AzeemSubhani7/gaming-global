@@ -10,23 +10,27 @@ import Footer from "../../components/Footer/Footer";
 // Icons
 import { HeartIcon } from "@heroicons/react/solid";
 import { EmojiSadIcon } from "@heroicons/react/solid";
+import { XCircleIcon } from "@heroicons/react/solid";
 // Classes
 import { defaultButtonStyles } from "../../components/Button/Button";
 // Utilities
 import { baseUrl } from "../../utils/backendUrl";
 
 const PostPage = (props) => {
-  console.log(props);
-  console.log(props.match.params);
-  console.log(props.token);
+  // console.log(props);
+  // console.log(props.match.params);
+  // console.log(props.token);
 
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [isPostLiked, setIsPostLiked] = useState(null);
   const [isPostUnliked, setIsPostUnliked] = useState(null);
+  const [makeComment, setMakeComment] = useState("");
   const [statusCode, setStatusCode] = useState(null);
 
+  // Use-Effect for fetching the psot!
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -46,7 +50,7 @@ const PostPage = (props) => {
     };
 
     fetchPost();
-  }, [isPostLiked, isPostUnliked]);
+  }, [isPostLiked, isPostUnliked, loading]);
 
   const likePost = () => {
     fetch(`${baseUrl}/api/post/likes/${props.match.params.id}`, {
@@ -69,16 +73,15 @@ const PostPage = (props) => {
     })
       .then((res) => {
         console.log(res);
-        if (res.status == 400) {
+        if (res.status === 400) {
           setStatusCode(400);
         }
         res.json();
       })
       .then((data) => {
-        if (statusCode == 400) {
+        if (statusCode === 400) {
           return null;
-        }
-        else{
+        } else {
           console.log(data);
           setIsPostUnliked(true);
           setIsPostLiked(false);
@@ -86,6 +89,7 @@ const PostPage = (props) => {
       })
       .catch((err) => alert(err.message));
   };
+
   // const likePost = async () => {
   //   try {
   //     const response = await axios.post(
@@ -105,16 +109,65 @@ const PostPage = (props) => {
   //   }
   // };
 
-  const [makeComment, setMakeComment] = useState("");
+  const createComment = () => {
+    setLoading(true);
+    fetch(`${baseUrl}/api/post/comment/${props.match.params.id}`, {
+      headers: {
+        Authorization: props.token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: makeComment }),
+      method: "POST",
+    })
+      .then((res) => {
+        setLoading(false);
+        return res.json();
+      })
+      .then((data) => {
+        setLoading(false);
+        return console.log(data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
 
-  console.log(makeComment);
+  const deleteComment = (commentID) => {
+    setLoading(true);
+    fetch(`${baseUrl}/api/${props.match.params.id}/comment/del/${commentID}`, {
+      headers: {
+        Authorization: props.token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: makeComment }),
+      method: "delete",
+    })
+      .then((res) => {
+        setLoading(false);
+        return res.json();
+      })
+      .then((data) => {
+        setLoading(false);
+        return console.log(data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
 
+  const navigateToUserProfile = (id) => {
+    props.history.push(`/profile/user/${id}`)
+  }
   const handleChange = (event) => {
     setMakeComment(event.target.value);
   };
 
-  console.log(post);
-  console.log(error);
+  // console.log(post);
+  // console.log(error);
 
   if (error) {
     return (
@@ -157,11 +210,13 @@ const PostPage = (props) => {
           <div className=" flex items-center justify-between">
             <div className=" flex items-center space-x-3">
               <img
-                src="https://avatars.githubusercontent.com/u/68494287?v=4"
+                src={post.user.userAvatar ? post.user.userAvatar : 'https://picsum.photos/200/300'}
                 alt="saman sayyar"
                 className="w-10 h-10 rounded-full object-cover"
               />
-              <div className="cursor-pointer transform  hover:scale-110 hover:text-secondary transition-all duration-300">
+              <div 
+                onClick={() => navigateToUserProfile(post.user._id)}
+                className="cursor-pointer transform  hover:scale-110 hover:text-secondary transition-all duration-300">
                 {post.user.userName}
               </div>
             </div>
@@ -243,7 +298,7 @@ const PostPage = (props) => {
                     <button
                       className={`${defaultButtonStyles} mt-2`}
                       disabled={!makeComment}
-                      onClick={() => console.log("we good")}
+                      onClick={() => createComment()}
                     >
                       Post
                     </button>
@@ -253,13 +308,48 @@ const PostPage = (props) => {
             </div>
           </div>
 
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Loader
+                visible={loading}
+                style={{ margin: "auto" }}
+                type="MutatingDots"
+                secondaryColor="#d31c3e"
+                color="#D31C3E"
+                height={100}
+                width={100}
+              />
+            </div>
+          </div>
+
           {/*Last section of comments*/}
           {post.postComments.length > 0 ? (
             post.postComments.map((item) => {
               return (
-                <div className="flex justify-center mt-3 p-3 border-b-8 border-primary-light flex-col space-y-2">
-                  <div className='font-semibold text-lg'>{item.user.userName}</div>
-                  <div className='font-light'>{item.text}</div>
+                <div
+                  key={item._id}
+                  className="flex justify-center mt-3 p-3 border-b-8 border-primary-light flex-col space-y-2"
+                >
+                  <div className="flex justify-between">
+                    <div className="font-semibold text-lg">
+                      {item.user.userName}
+                    </div>
+                    <div>
+                      {item.user._id === props.userIdxD ? (
+                        <XCircleIcon
+                          onClick={() => deleteComment(item._id)}
+                          className="v-8 h-8 text-greyText hover:text-secondary transition-all duration-300"
+                        />
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="font-light">{item.text}</div>
                 </div>
               );
             })
@@ -279,7 +369,10 @@ const PostPage = (props) => {
 
 const mapStateToProps = (state) => {
   // console.log(state);
-  return { token: state.userState.user.token };
+  return {
+    token: state.userState.user.token,
+    userIdxD: state.userState.user._id,
+  };
 };
 
 export default connect(mapStateToProps)(PostPage);
