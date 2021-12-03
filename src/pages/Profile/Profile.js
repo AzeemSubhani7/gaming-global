@@ -22,6 +22,7 @@ import { clearLoggedUser } from "../../redux/action";
 
 // Utilities
 import { baseUrl } from "../../utils/backendUrl";
+import Posts from "../../components/Post/Post";
 
 const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
   // console.log(user)
@@ -35,10 +36,9 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
   const [fetchedUserProfileInfo, setFetchedUserProfileInfo] = useState(null);
   const [fetchingLoading, setFetchingLoading] = useState(null);
 
-  const [followers, setFollowers] = useState(null);
-  const [following, setFollowing] = useState(null);
-
   const [postFetchingLoading, setPostFetchingLoading] = useState(null);
+  const [posts, setPosts] = useState(null);
+
   const [isOpenFollower, setIsOpenFollower] = useState(false);
   const [isOpenFollowing, setIsOpenFollowing] = useState(false);
   const [error, setError] = useState(null);
@@ -73,16 +73,17 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
         if (response.data) {
           setFetchedUserProfileInfo(response.data);
           if (response.data) {
-            const isFollowing = response.data.followStats[0].followers.filter( (x) => {
-              return x.user._id == user._id
-            });
-            console.log('from following')
-            console.log(isFollowing)
-            if(isFollowing.length > 0) {
-              setFollowFlag('Unfollow');
-            }
-            else {
-              setFollowFlag('Follow');
+            const isFollowing = response.data.followStats[0].followers.filter(
+              (x) => {
+                return x.user._id == user._id;
+              }
+            );
+            console.log("from following");
+            console.log(isFollowing);
+            if (isFollowing.length > 0) {
+              setFollowFlag("Unfollow");
+            } else {
+              setFollowFlag("Follow");
             }
           }
           setFetchingLoading(false);
@@ -92,6 +93,25 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
         console.log(error);
       }
     };
+
+    // Fetching the posts by this user
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(
+          `${baseUrl}/api/posts/${match.params.id}`,
+          {
+            headers: { Authorization: user.token },
+          }
+        );
+        if (response.data) {
+          setPosts(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchPosts();
 
     // Fetching the user Details
     const fetchUser = async () => {
@@ -116,7 +136,6 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
     fetchUserProfileInfo();
     fetchUser();
   }, [followFlag]);
-
 
   const handleBannedUser = () => {
     clearLoggedUser();
@@ -331,6 +350,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
     );
   }
 
+  console.log(posts);
   // console.log(fetchedUserProfileInfo);
   // User logged-in is Visiting his own profile
   if (fetchedUser._id === user._id) {
@@ -408,6 +428,13 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
             </div>
           </div>
           {/*Second Section*/}
+          { posts ? posts.map((post) => {
+            return (
+              <div key={post._id}>
+                <Posts userName={post.user.userName} postText={post.postText} postId={post._id} />
+              </div>
+            );
+          }) : null}
         </div>
         {/* Modals for openning followers*/}
 
@@ -619,6 +646,14 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
           </div>
         </div>
         {/*Second Section*/}
+
+        { posts ? posts.map((post) => {
+          return (
+            <div key={post._id}>
+              <Posts userName={post.user.userName} postText={post.postText} postId={post._id} />
+            </div>
+          );
+        }) : null}
       </div>
 
       {/* Modals for openning followers*/}

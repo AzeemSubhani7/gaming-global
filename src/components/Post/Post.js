@@ -6,8 +6,8 @@ const Post = (props) => {
   // console.log(props);
   const history = useHistory();
   const handleClick = () => {
-    history.push(`/posts/${props.postId}`)
-  }
+    history.push(`/posts/${props.postId}`);
+  };
   return (
     <div className="min-h-scree mt-5 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -15,19 +15,25 @@ const Post = (props) => {
         <div className="relative px-4 py-10 bg-primary-light shadow-lg sm:rounded-3xl sm:p-20">
           <div className="max-w-md mx-auto">
             <div className="bg-primary-light mt-3">
-            <div className='text-greyText text-xl my-3'>{props.userName}</div>
-              <img
-              className="rounded-t-lg shadow-lg "
-                alt='Lunbaby ka'
-                src="https://images.unsplash.com/photo-1572817519612-d8fadd929b00?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
-              />
+              <div className="text-greyText text-xl my-3">{props.userName}</div>
+              {props.img ? (
+                <img
+                  className="rounded-t-lg shadow-lg "
+                  alt="Lunbaby ka"
+                  src={props.img}
+                />
+              ) : null}
+
               <div className="bg-primary-light shadow p-5 text-xl text-greyText font-semibold">
                 {props.postText}
               </div>
               <div className="bg-primary-light text-greyText p-1 rounded-b-lg items-center justify-center flex flex-row flex-wrap">
-                <div 
-                onClick={() => handleClick()}
-                className='cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300'>View Post</div>
+                <div
+                  onClick={() => handleClick()}
+                  className="cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300"
+                >
+                  View Post
+                </div>
               </div>
             </div>
           </div>
