@@ -34,7 +34,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
   const [fetchedUser, setFetchedUser] = useState(null);
   const [fetchedUserProfileInfo, setFetchedUserProfileInfo] = useState(null);
   const [fetchingLoading, setFetchingLoading] = useState(null);
-  
+
   const [followers, setFollowers] = useState(null);
   const [following, setFollowing] = useState(null);
 
@@ -42,31 +42,56 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
   const [isOpenFollower, setIsOpenFollower] = useState(false);
   const [isOpenFollowing, setIsOpenFollowing] = useState(false);
   const [error, setError] = useState(null);
+  const [followFlag, setFollowFlag] = useState("Follow");
 
   const closeFollowModal = () => setIsOpenFollower(false);
   const closeFollowingModal = () => setIsOpenFollowing(false);
 
+  const followOrUnfollow = () => {
+    fetch(`${baseUrl}/api/user/follow/${match.params.id}`, {
+      headers: { Authorization: user.token },
+      method: "POST",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "unfollowed") setFollowFlag("Follow");
+        if (data.message === "followed") setFollowFlag("Unfollow");
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   // useEffect to fetch the user for initial render
   useEffect(() => {
-
     // Fetching User's Profile's information
 
     const fetchUserProfileInfo = async () => {
       try {
         const response = await axios.get(`${baseUrl}/api/${match.params.id}`, {
-          headers: { Authorization: user.token }
+          headers: { Authorization: user.token },
         });
-        if(response.data) {
+        if (response.data) {
           setFetchedUserProfileInfo(response.data);
+          if (response.data) {
+            const isFollowing = response.data.followStats[0].followers.filter( (x) => {
+              return x.user._id == user._id
+            });
+            console.log('from following')
+            console.log(isFollowing)
+            if(isFollowing.length > 0) {
+              setFollowFlag('Unfollow');
+            }
+            else {
+              setFollowFlag('Follow');
+            }
+          }
           setFetchingLoading(false);
         }
-      }
-      catch(error) {
+      } catch (error) {
         setError(error);
         console.log(error);
       }
-    }
+    };
 
     // Fetching the user Details
     const fetchUser = async () => {
@@ -90,7 +115,8 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
     };
     fetchUserProfileInfo();
     fetchUser();
-  },[]);
+  }, [followFlag]);
+
 
   const handleBannedUser = () => {
     clearLoggedUser();
@@ -305,6 +331,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
     );
   }
 
+  // console.log(fetchedUserProfileInfo);
   // User logged-in is Visiting his own profile
   if (fetchedUser._id === user._id) {
     return (
@@ -352,26 +379,30 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
 
             <div className="bg-primary-light md:bg-primary-dark flex items-center justify-evenly mt-3 px-10 py-2 rounded-xl">
               <div className="m-3 divide-y-2 divide-greyText flex flex-col space-y-4 items-center">
-                <p 
-                onClick={() => setIsOpenFollower(true)}
-                className="font-medium cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-xl text-greyText">
+                <p
+                  onClick={() => setIsOpenFollower(true)}
+                  className="font-medium cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-xl text-greyText"
+                >
                   Followers
                 </p>
 
-                <p 
-                className=" font-medium  text-xl text-greyText">
-                 {fetchedUserProfileInfo ? fetchedUserProfileInfo.followStats[0].followers.length : 'fetching'}
+                <p className=" font-medium  text-xl text-greyText">
+                  {fetchedUserProfileInfo
+                    ? fetchedUserProfileInfo.followStats[0].followers.length
+                    : "fetching"}
                 </p>
               </div>
               <div className="m-3 divide-y-2 divide-greyText flex flex-col space-y-4 items-center">
-                <p 
+                <p
                   onClick={() => setIsOpenFollowing(true)}
-                  className="font-medium cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-xl text-greyText">
+                  className="font-medium cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-xl text-greyText"
+                >
                   Following
                 </p>
-                <p 
-                className=" font-medium text-xl text-greyText">
-                {fetchedUserProfileInfo ? fetchedUserProfileInfo.followStats[0].following.length : 'fetching'}
+                <p className=" font-medium text-xl text-greyText">
+                  {fetchedUserProfileInfo
+                    ? fetchedUserProfileInfo.followStats[0].following.length
+                    : "fetching"}
                 </p>
               </div>
             </div>
@@ -406,15 +437,15 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
               </Dialog.Title>
 
               <Dialog.Description className="text-center text-greyText p-5">
-                {fetchedUserProfileInfo ? fetchedUserProfileInfo.followStats[0].followers.length < 1 ? `No followers` : 
-                fetchedUserProfileInfo.followStats[0].followers.map(x => {
-                  return(
-                    <div key={x._id}>
-                      {x.user.userName}
-                    </div>
-                  )
-                })
-                : 'fetching'}
+                {fetchedUserProfileInfo
+                  ? fetchedUserProfileInfo.followStats[0].followers.length < 1
+                    ? `No followers`
+                    : fetchedUserProfileInfo.followStats[0].followers.map(
+                        (x) => {
+                          return <div key={x._id}>{x.user.userName}</div>;
+                        }
+                      )
+                  : "fetching"}
               </Dialog.Description>
 
               <p
@@ -476,15 +507,15 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
               </Dialog.Title>
 
               <Dialog.Description className="text-center text-greyText p-5">
-                {fetchedUserProfileInfo ? fetchedUserProfileInfo.followStats[0].following.length < 1 ? `No followers` : 
-                fetchedUserProfileInfo.followStats[0].following.map(x => {
-                  return(
-                    <div key={x._id}>
-                      {x.user.userName}
-                    </div>
-                  )
-                })
-                : 'fetching'}
+                {fetchedUserProfileInfo
+                  ? fetchedUserProfileInfo.followStats[0].following.length < 1
+                    ? `No followers`
+                    : fetchedUserProfileInfo.followStats[0].following.map(
+                        (x) => {
+                          return <div key={x._id}>{x.user.userName}</div>;
+                        }
+                      )
+                  : "fetching"}
               </Dialog.Description>
 
               <p
@@ -548,30 +579,41 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
           </div>
           {/*A bit of logic in future*/}
           <div className="my-2 flex space-x-4">
-            <button className={defaultButtonStyles}>Follow</button>
+            <button
+              onClick={() => followOrUnfollow()}
+              className={defaultButtonStyles}
+            >
+              {followFlag}
+            </button>
             <button className={secondaryButtonStyles}>Whisper</button>
           </div>
 
           <div className="bg-primary-light md:bg-primary-dark flex items-center justify-evenly mt-3 px-10 py-2 rounded-xl">
             <div className="m-3 cursor-pointer divide-y-2 divide-greyText flex flex-col space-y-4 items-center">
-              <p 
-              onClick={() => setIsOpenFollower(true)}
-              className="font-medium text-xl cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-greyText">
+              <p
+                onClick={() => setIsOpenFollower(true)}
+                className="font-medium text-xl cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-greyText"
+              >
                 Followers
               </p>
 
               <p className=" font-medium text-xl text-greyText">
-              {fetchedUserProfileInfo ? ( fetchedUserProfileInfo.followStats[0].followers.length ) :'fetching'}
+                {fetchedUserProfileInfo
+                  ? fetchedUserProfileInfo.followStats[0].followers.length
+                  : "fetching"}
               </p>
             </div>
             <div className="m-3 divide-y-2 divide-greyText flex flex-col space-y-4 items-center">
-              <p 
-              onClick={() => setIsOpenFollowing(true)}
-              className="font-medium cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-xl text-greyText">
+              <p
+                onClick={() => setIsOpenFollowing(true)}
+                className="font-medium cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-xl text-greyText"
+              >
                 Following
               </p>
               <p className=" font-medium  text-xl text-greyText">
-              {fetchedUserProfileInfo ? ( fetchedUserProfileInfo.followStats[0].following.length ) :'fetching'}
+                {fetchedUserProfileInfo
+                  ? fetchedUserProfileInfo.followStats[0].following.length
+                  : "fetching"}
               </p>
             </div>
           </div>
@@ -582,142 +624,138 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
       {/* Modals for openning followers*/}
 
       <Transition
-      show={isOpenFollower}
-      as={Fragment}
-      enter="transition-all ease-in-out duration-700 transform"
-      enterFrom="opacity-0 translate-y-full"
-      enterTo="translate-y-0 opacity-100"
-      leave="transition-all ease-in-out duration-700 transform"
-      leaveFrom="opacity-100 translate-y-0"
-      leaveTo="opacity-0 translate-y-full"
-    >
-      <Dialog
-        as="div"
-        open={isOpenFollower}
-        onClose={closeFollowModal}
-        className="fixed flex items-center justify-center flex-col bg-primary-dark z-50 inset-0 overflow-hidden"
+        show={isOpenFollower}
+        as={Fragment}
+        enter="transition-all ease-in-out duration-700 transform"
+        enterFrom="opacity-0 translate-y-full"
+        enterTo="translate-y-0 opacity-100"
+        leave="transition-all ease-in-out duration-700 transform"
+        leaveFrom="opacity-100 translate-y-0"
+        leaveTo="opacity-0 translate-y-full"
       >
-        <Dialog.Overlay className="bg-green-400" />
-        <div
-          className="bg-primary-light rounded-xl flex flex-col justify-center items-center p-5"
-          style={{ width: "300px" }}
+        <Dialog
+          as="div"
+          open={isOpenFollower}
+          onClose={closeFollowModal}
+          className="fixed flex items-center justify-center flex-col bg-primary-dark z-50 inset-0 overflow-hidden"
         >
-          <Dialog.Title className="text-xl mb-3 text-center text-greyText">
-            {"Followers"}
-          </Dialog.Title>
-
-          <Dialog.Description className="text-center text-greyText p-5">
-          {fetchedUserProfileInfo ? fetchedUserProfileInfo.followStats[0].followers.length < 1 ? `No followers` : 
-          fetchedUserProfileInfo.followStats[0].followers.map(x => {
-            return(
-              <div key={x._id}>
-                {x.user.userName}
-              </div>
-            )
-          })
-          : 'fetching'}
-          </Dialog.Description>
-
-          <p
-            className="text-center"
-            style={{
-              position: "absolute",
-              zIndex: "200",
-              top: "20px",
-              right: "20px",
-            }}
+          <Dialog.Overlay className="bg-green-400" />
+          <div
+            className="bg-primary-light rounded-xl flex flex-col justify-center items-center p-5"
+            style={{ width: "300px" }}
           >
-            <XCircleIcon
+            <Dialog.Title className="text-xl mb-3 text-center text-greyText">
+              {"Followers"}
+            </Dialog.Title>
+
+            <Dialog.Description className="text-center text-greyText p-5">
+              {fetchedUserProfileInfo
+                ? fetchedUserProfileInfo.followStats[0].followers.length < 1
+                  ? `No followers`
+                  : fetchedUserProfileInfo.followStats[0].followers.map((x) => {
+                      return <div key={x._id}>{x.user.userName}</div>;
+                    })
+                : "fetching"}
+            </Dialog.Description>
+
+            <p
+              className="text-center"
+              style={{
+                position: "absolute",
+                zIndex: "200",
+                top: "20px",
+                right: "20px",
+              }}
+            >
+              <XCircleIcon
+                onClick={() => {
+                  setIsOpenFollower(false);
+                }}
+                style={{ top: "10px", right: "10px" }}
+                className="h-10 w-10 absolute cursor-pointer transform transition-all duration-300 hover:scale-110 text-greyText hover:text-secondary"
+              />
+            </p>
+
+            <button
+              className={`${secondaryButtonStyles} mt-3`}
               onClick={() => {
                 setIsOpenFollower(false);
               }}
-              style={{ top: "10px", right: "10px" }}
-              className="h-10 w-10 absolute cursor-pointer transform transition-all duration-300 hover:scale-110 text-greyText hover:text-secondary"
-            />
-          </p>
+            >
+              OKAY
+            </button>
+          </div>
+        </Dialog>
+      </Transition>
+      {/* Modals for openning followers*/}
 
-          <button
-            className={`${secondaryButtonStyles} mt-3`}
-            onClick={() => {
-              setIsOpenFollower(false);
-            }}
-          >
-            OKAY
-          </button>
-        </div>
-      </Dialog>
-    </Transition>
-    {/* Modals for openning followers*/}
+      {/* Modals for openning following*/}
 
-    {/* Modals for openning following*/}
-
-    <Transition
-      show={isOpenFollowing}
-      as={Fragment}
-      enter="transition-all ease-in-out duration-700 transform"
-      enterFrom="opacity-0 translate-y-full"
-      enterTo="translate-y-0 opacity-100"
-      leave="transition-all ease-in-out duration-700 transform"
-      leaveFrom="opacity-100 translate-y-0"
-      leaveTo="opacity-0 translate-y-full"
-    >
-      <Dialog
-        as="div"
-        open={isOpenFollowing}
-        onClose={closeFollowingModal}
-        className="fixed flex items-center justify-center flex-col bg-primary-dark z-50 inset-0 overflow-hidden"
+      <Transition
+        show={isOpenFollowing}
+        as={Fragment}
+        enter="transition-all ease-in-out duration-700 transform"
+        enterFrom="opacity-0 translate-y-full"
+        enterTo="translate-y-0 opacity-100"
+        leave="transition-all ease-in-out duration-700 transform"
+        leaveFrom="opacity-100 translate-y-0"
+        leaveTo="opacity-0 translate-y-full"
       >
-        <Dialog.Overlay className="bg-green-400" />
-        <div
-          className="bg-primary-light rounded-xl flex flex-col justify-center items-center p-5"
-          style={{ width: "300px" }}
+        <Dialog
+          as="div"
+          open={isOpenFollowing}
+          onClose={closeFollowingModal}
+          className="fixed flex items-center justify-center flex-col bg-primary-dark z-50 inset-0 overflow-hidden"
         >
-          <Dialog.Title className="text-xl mb-3 text-center text-greyText">
-          {"Following"}
-          </Dialog.Title>
-
-          <Dialog.Description className="text-center text-greyText p-5">
-          {fetchedUserProfileInfo ? fetchedUserProfileInfo.followStats[0].following.length < 1 ? `No followers` : 
-          fetchedUserProfileInfo.followStats[0].following.map(x => {
-            return(
-              <div key={x._id}>
-                {x.user.userName}
-              </div>
-            )
-          })
-          : 'fetching'}
-          </Dialog.Description>
-
-          <p
-            className="text-center"
-            style={{
-              position: "absolute",
-              zIndex: "200",
-              top: "20px",
-              right: "20px",
-            }}
+          <Dialog.Overlay className="bg-green-400" />
+          <div
+            className="bg-primary-light rounded-xl flex flex-col justify-center items-center p-5"
+            style={{ width: "300px" }}
           >
-            <XCircleIcon
+            <Dialog.Title className="text-xl mb-3 text-center text-greyText">
+              {"Following"}
+            </Dialog.Title>
+
+            <Dialog.Description className="text-center text-greyText p-5">
+              {fetchedUserProfileInfo
+                ? fetchedUserProfileInfo.followStats[0].following.length < 1
+                  ? `No followers`
+                  : fetchedUserProfileInfo.followStats[0].following.map((x) => {
+                      return <div key={x._id}>{x.user.userName}</div>;
+                    })
+                : "fetching"}
+            </Dialog.Description>
+
+            <p
+              className="text-center"
+              style={{
+                position: "absolute",
+                zIndex: "200",
+                top: "20px",
+                right: "20px",
+              }}
+            >
+              <XCircleIcon
+                onClick={() => {
+                  setIsOpenFollowing(false);
+                }}
+                style={{ top: "10px", right: "10px" }}
+                className="h-10 w-10 absolute cursor-pointer transform transition-all duration-300 hover:scale-110 text-greyText hover:text-secondary"
+              />
+            </p>
+
+            <button
+              className={`${secondaryButtonStyles} mt-3`}
               onClick={() => {
                 setIsOpenFollowing(false);
               }}
-              style={{ top: "10px", right: "10px" }}
-              className="h-10 w-10 absolute cursor-pointer transform transition-all duration-300 hover:scale-110 text-greyText hover:text-secondary"
-            />
-          </p>
-
-          <button
-            className={`${secondaryButtonStyles} mt-3`}
-            onClick={() => {
-              setIsOpenFollowing(false);
-            }}
-          >
-            OKAY
-          </button>
-        </div>
-      </Dialog>
-    </Transition>
-    {/* Modals for openning followers and following*/}
+            >
+              OKAY
+            </button>
+          </div>
+        </Dialog>
+      </Transition>
+      {/* Modals for openning followers and following*/}
 
       <Footer />
     </div>
