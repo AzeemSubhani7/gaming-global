@@ -50,7 +50,7 @@ const PostPage = (props) => {
     };
 
     fetchPost();
-  }, [isPostLiked, isPostUnliked, loading]);
+  }, [isPostLiked, isPostUnliked, loading, props.token, props.match.params.id]);
 
   const likePost = () => {
     fetch(`${baseUrl}/api/post/likes/${props.match.params.id}`, {

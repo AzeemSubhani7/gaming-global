@@ -21,7 +21,7 @@ import Footer from "../components/Footer/Footer";
 import LinearImageSection from "../components/LinearImageSection/LinearImageSection";
 
 // Images
-import socialMediaImage from "../images/social_media_home_page.jpeg";
+import newSocialImage from "../images/devastating_man.jpg"
 
 // Utils
 import { secondaryButtonStyles } from "../components/Button/Button";
@@ -103,7 +103,7 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
     return (
       <div className="social-media">
       <Header />
-      <LinearImageSection imageUrl={socialMediaImage}>
+      <LinearImageSection imageUrl={newSocialImage}>
         <div className="flex overflow-hidden p-10 rounded-xl flex-col items-center justify-center relative z-0">
           <div className="" style={transperentDivCSS}></div>
           <h1 className="px-10 text-gray-200 text-center md:text-left sm:px-0 font-bold lg:font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-6xl">
@@ -122,7 +122,7 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
       </LinearImageSection>
       
       <div className="text-white  mt-10">
-        <p className="text-2xl text-center mt-5 md:mt-10 text-secondary">
+        <p className="text-3xl font-semibold text-center mt-5 md:mt-10 text-secondary">
           Social Navigator
         </p>
       </div>

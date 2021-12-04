@@ -35,8 +35,6 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
   const [fetchedUser, setFetchedUser] = useState(null);
   const [fetchedUserProfileInfo, setFetchedUserProfileInfo] = useState(null);
   const [fetchingLoading, setFetchingLoading] = useState(null);
-
-  const [postFetchingLoading, setPostFetchingLoading] = useState(null);
   const [posts, setPosts] = useState(null);
 
   const [isOpenFollower, setIsOpenFollower] = useState(false);
@@ -75,11 +73,11 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
           if (response.data) {
             const isFollowing = response.data.followStats[0].followers.filter(
               (x) => {
-                return x.user._id == user._id;
+                return x.user._id === user._id;
               }
             );
-            console.log("from following");
-            console.log(isFollowing);
+            // console.log("from following");
+            // console.log(isFollowing);
             if (isFollowing.length > 0) {
               setFollowFlag("Unfollow");
             } else {
@@ -135,7 +133,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
     };
     fetchUserProfileInfo();
     fetchUser();
-  }, [followFlag]);
+  }, [followFlag, user._id, user.token, match.params.id]);
 
   const handleBannedUser = () => {
     clearLoggedUser();
@@ -350,7 +348,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
     );
   }
 
-  console.log(posts);
+  // console.log(posts);
   // console.log(fetchedUserProfileInfo);
   // User logged-in is Visiting his own profile
   if (fetchedUser._id === user._id) {
@@ -399,12 +397,12 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
 
             <div className="bg-primary-light md:bg-primary-dark flex items-center justify-evenly mt-3 px-10 py-2 rounded-xl">
               <div className="m-3 divide-y-2 divide-greyText flex flex-col space-y-4 items-center">
-                <p
+                <div
                   onClick={() => setIsOpenFollower(true)}
                   className="font-medium cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-xl text-greyText"
                 >
                   Followers
-                </p>
+                </div>
 
                 <p className=" font-medium  text-xl text-greyText">
                   {fetchedUserProfileInfo
@@ -413,12 +411,12 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
                 </p>
               </div>
               <div className="m-3 divide-y-2 divide-greyText flex flex-col space-y-4 items-center">
-                <p
+                <div
                   onClick={() => setIsOpenFollowing(true)}
                   className="font-medium cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-xl text-greyText"
                 >
                   Following
-                </p>
+                </div>
                 <p className=" font-medium text-xl text-greyText">
                   {fetchedUserProfileInfo
                     ? fetchedUserProfileInfo.followStats[0].following.length
@@ -475,7 +473,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
                   : "fetching"}
               </Dialog.Description>
 
-              <p
+              <div
                 className="text-center"
                 style={{
                   position: "absolute",
@@ -491,7 +489,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
                   style={{ top: "10px", right: "10px" }}
                   className="h-10 w-10 absolute cursor-pointer transform transition-all duration-300 hover:scale-110 text-greyText hover:text-secondary"
                 />
-              </p>
+              </div>
 
               <button
                 className={`${secondaryButtonStyles} mt-3`}
@@ -536,7 +534,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
               <Dialog.Description className="text-center text-greyText p-5">
                 {fetchedUserProfileInfo
                   ? fetchedUserProfileInfo.followStats[0].following.length < 1
-                    ? `No followers`
+                    ? `No followings`
                     : fetchedUserProfileInfo.followStats[0].following.map(
                         (x) => {
                           return <div key={x._id}>{x.user.userName}</div>;
@@ -545,7 +543,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
                   : "fetching"}
               </Dialog.Description>
 
-              <p
+              <div
                 className="text-center"
                 style={{
                   position: "absolute",
@@ -561,7 +559,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
                   style={{ top: "10px", right: "10px" }}
                   className="h-10 w-10 absolute cursor-pointer transform transition-all duration-300 hover:scale-110 text-greyText hover:text-secondary"
                 />
-              </p>
+              </div>
 
               <button
                 className={`${secondaryButtonStyles} mt-3`}
@@ -617,12 +615,12 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
 
           <div className="bg-primary-light md:bg-primary-dark flex items-center justify-evenly mt-3 px-10 py-2 rounded-xl">
             <div className="m-3 cursor-pointer divide-y-2 divide-greyText flex flex-col space-y-4 items-center">
-              <p
+              <div
                 onClick={() => setIsOpenFollower(true)}
                 className="font-medium text-xl cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-greyText"
               >
                 Followers
-              </p>
+              </div>
 
               <p className=" font-medium text-xl text-greyText">
                 {fetchedUserProfileInfo
@@ -631,12 +629,12 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
               </p>
             </div>
             <div className="m-3 divide-y-2 divide-greyText flex flex-col space-y-4 items-center">
-              <p
+              <div
                 onClick={() => setIsOpenFollowing(true)}
                 className="font-medium cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300 text-xl text-greyText"
               >
                 Following
-              </p>
+              </div>
               <p className=" font-medium  text-xl text-greyText">
                 {fetchedUserProfileInfo
                   ? fetchedUserProfileInfo.followStats[0].following.length
@@ -693,7 +691,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
                 : "fetching"}
             </Dialog.Description>
 
-            <p
+            <div
               className="text-center"
               style={{
                 position: "absolute",
@@ -709,7 +707,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
                 style={{ top: "10px", right: "10px" }}
                 className="h-10 w-10 absolute cursor-pointer transform transition-all duration-300 hover:scale-110 text-greyText hover:text-secondary"
               />
-            </p>
+            </div>
 
             <button
               className={`${secondaryButtonStyles} mt-3`}
@@ -754,14 +752,14 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
             <Dialog.Description className="text-center text-greyText p-5">
               {fetchedUserProfileInfo
                 ? fetchedUserProfileInfo.followStats[0].following.length < 1
-                  ? `No followers`
+                  ? `No followings`
                   : fetchedUserProfileInfo.followStats[0].following.map((x) => {
                       return <div key={x._id}>{x.user.userName}</div>;
                     })
                 : "fetching"}
             </Dialog.Description>
 
-            <p
+            <div
               className="text-center"
               style={{
                 position: "absolute",
@@ -777,7 +775,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
                 style={{ top: "10px", right: "10px" }}
                 className="h-10 w-10 absolute cursor-pointer transform transition-all duration-300 hover:scale-110 text-greyText hover:text-secondary"
               />
-            </p>
+            </div>
 
             <button
               className={`${secondaryButtonStyles} mt-3`}
