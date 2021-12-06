@@ -16,6 +16,7 @@ import LoginPage from "./pages/Login";
 import ProfilePage from "./pages/Profile/Profile";
 import FeedPage from "./pages/Feed/Feed";
 import PostPage from "./pages/Feed/PostPage";
+import ChatPage from "./pages/Chat";
 
 // Components
 
@@ -37,6 +38,7 @@ function App() {
           <Route path='/profile/user/:id' exact component={ProfilePage} />
           <Route path='/profile/feed' component={FeedPage} />
           <Route path ='/posts/:id' component={PostPage} />
+          <Route path = '/chat/:id' component={ChatPage} />
 
       </Switch>
     </BrowserRouter>

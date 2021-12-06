@@ -13,18 +13,19 @@ const FortniteStatisticsCard = (props) => {
                 kills
             </div>
             <div className="text-greyText text-sm sm:text-lg text-center font-bold">
-              {props.stats.kills ? props.stats.kills : 'no record' }
+              {/*props.stats.kills.displayValue ? "123" : 'no record' */}
+              5528
             </div>
           </div>
 
           <div className='flex flex-col items justify-center'>
-            <div className="text-greyText text-sm sm:text-lg text-center">wins</div>
-            <div className="text-greyText text-sm sm:text-lg text-center font-bold">{props.stats.wins ? props.stats.wins : 'no record'}</div>
+            <div className="text-greyText text-sm sm:text-lg text-center">Score Per Match</div>
+  <div className="text-greyText text-sm sm:text-lg text-center font-bold">{/*props.stats.scorePerMatch.displayValue ? props.stats.scorePerMatch.displayValue : 'no record'*/}1931</div>
           </div>
 
           <div className='flex flex-col items justify-center'>
-            <div className="text-greyText text-sm sm:text-lg text-center">deaths</div>
-            <div className="text-greyText text-sm sm:text-lg text-center font-bold">{props.stats.deaths ? props.stats.deaths : 'no record'}</div>
+            <div className="text-greyText text-sm sm:text-lg text-center">K/D</div>
+  <div className="text-greyText text-sm sm:text-lg text-center font-bold">{/*props.stats.kd.displayValue ? props.stats.kd.displayValue : 'no record'*/}3.09</div>
           </div>
 
           </div>
@@ -32,18 +33,18 @@ const FortniteStatisticsCard = (props) => {
           <div className="lower-box h-11 p-5 flex pt-10 items-center space-x-10 justify-center">
             
           <div className='flex flex-col items-center justify-center space-x-4'>
-          <div className="text-greyText text-sm sm:text-lg text-center">KD</div>
-          <div className="text-greyText text-sm sm:text-lg text-center font-bold">{props.stats.kd ? props.stats.kd : 'no record'}</div>
+          <div className="text-greyText text-sm sm:text-lg text-center">Kills Per Min</div>
+          <div className="text-greyText text-sm sm:text-lg text-center font-bold">{/*props.stats.kpm.displayValue ? props.stats.kpm.displayValue : 'no record'*/}1.65</div>
         </div>
 
         <div className='flex flex-col items justify-center'>
           <div className="text-greyText text-sm sm:text-lg text-center">Matches</div>
-          <div className="text-greyText text-sm sm:text-lg text-center font-bold">{props.stats.matches ? props.stats.matches : 'no record'}</div>
+  <div className="text-greyText text-sm sm:text-lg text-center font-bold">{/*props.stats.matches ? props.stats.matches : 'no record'*/}3098</div>
         </div>
 
         <div className='flex flex-col items justify-center'>
           <div className="text-greyText text-sm sm:text-lg text-center">Kill Per Match</div>
-          <div className="text-greyText text-sm sm:text-lg text-center font-bold">{props.stats.killsPerMatch ? props.stats.killsPerMatch : 'no record'}</div>
+  <div className="text-greyText text-sm sm:text-lg text-center font-bold">{/*props.stats.killsPerMatch ? props.stats.killsPerMatch : 'no record'*/}2.03</div>
         </div>
 
           </div>

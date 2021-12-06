@@ -279,7 +279,9 @@ const LoginPage = ({ user, history, loginUser }) => {
 };
 
 const mapStateToProps = (state) => {
-  if (state.userState.user) return { user: state.userState.user.userName };
+  if(state.userState){
+    if (state.userState.user) return { user: state.userState.user.userName };
+  }
   else {
     return { user: null };
   }

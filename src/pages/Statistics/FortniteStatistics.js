@@ -25,6 +25,7 @@ import {
   secondaryHeadingClasses,
 } from "../../utils/combinedClasses";
 import RenderError from "./RenderError";
+import { baseUrl } from "../../utils/backendUrl";
 
 const FortniteStatisticsPage = () => {
   const [userName, setUserName] = useState("");
@@ -35,21 +36,21 @@ const FortniteStatisticsPage = () => {
 
   const fetchStats = async (userName, platform) => {
     setShowError(false);
-    console.log("The username is: ", userName);
-    console.log("The platform is: ", platform);
 
     try {
       setFortniteStats(null);
       setIsActiveSpinner(true);
+
       const { data } = await axios.get(
-        `https://fortnite-api.com/v2/stats/br/v2?name=${userName}`,
+        `${baseUrl}/api/statistics/fortnite`,
+        { userName: userName },
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
-            "Origin": "https://fortnite-api.com"
           },
         }
       );
+      console.log(data);
       const stats = data;
       setUserName("");
       if (!stats) {
@@ -65,7 +66,7 @@ const FortniteStatisticsPage = () => {
   };
 
   useEffect(() => {
-    console.log(fortniteStats);
+    // console.log(fortniteStats);
   }, [fortniteStats]);
   const handleClick = () => {
     if (!userName) return alert("Enter The In-Game-Name");
@@ -189,29 +190,12 @@ const FortniteStatisticsPage = () => {
         >
           <div className="flex flex-col items-center justify-center">
             <h1 className={`mt-10 mb-10 ${secondaryHeadingClasses}`}>
-              {fortniteStats.data.account.name}
             </h1>
             <div className="flex flex-wrap justify-center items-center">
-              <FortniteStatisticsCard
-                stats={fortniteStats.data.stats.all.duo}
-                title="Duo"
-              />
-              <FortniteStatisticsCard
-                stats={fortniteStats.data.stats.all.ltm}
-                title="LTM"
-              />
-              <FortniteStatisticsCard
-                stats={fortniteStats.data.stats.all.overall}
-                title="Overall"
-              />
-              <FortniteStatisticsCard
-                stats={fortniteStats.data.stats.all.solo}
-                title="Solo"
-              />
-              <FortniteStatisticsCard
-                stats={fortniteStats.data.stats.all.squad}
-                title="Squad"
-              />
+              <FortniteStatisticsCard title="Duo" />
+              <FortniteStatisticsCard title="Solo" />
+              <FortniteStatisticsCard title="Trio" />
+              <FortniteStatisticsCard title="Overall" />
             </div>
           </div>
         </Transition>

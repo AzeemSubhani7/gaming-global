@@ -52,7 +52,21 @@ const PostPage = (props) => {
     fetchPost();
   }, [isPostLiked, isPostUnliked, loading, props.token, props.match.params.id]);
 
-  const likePost = () => {
+  const likePost = async () => {
+    // try{
+    //   const response = await axios.post(`${baseUrl}/api/post/likes/${props.match.params.id}`, {
+    //     headers: { Authorization: props.token }
+    //   })
+    //   if(response.data) {
+    //     console.log(response.data)
+    //     setIsPostLiked(true);
+    //     setIsPostUnliked(false);
+    //   }
+    // }
+    // catch(error) {
+    //   console.log(error)
+    // }
+
     fetch(`${baseUrl}/api/post/likes/${props.match.params.id}`, {
       headers: { Authorization: props.token },
       method: "POST",

@@ -44,3 +44,24 @@ input[type="radio"]:checked + label{
  color: #D31C3E; 
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 100vh;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #D31C3E;
+  border-radius: 100vh;
+  border: 1px solid #D31C3E;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #D31C3E;
+}

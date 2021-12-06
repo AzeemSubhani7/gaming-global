@@ -142,7 +142,7 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
             <TableIcon className="w-6 h-6 mr-2" /> Feed
           </Link>
           <Link
-            to="/profile/me"
+            to="/chat/default"
             className="flex items-center justify-evenly hover:text-secondary cursor-pointer transform transition-all duration-300 hover:scale-105"
           >
             <InboxIcon className="w-6 h-6 mr-2" /> Chat
