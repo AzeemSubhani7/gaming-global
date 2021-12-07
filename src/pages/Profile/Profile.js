@@ -610,7 +610,9 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
             >
               {followFlag}
             </button>
-            <button className={secondaryButtonStyles}>Whisper</button>
+            <button
+            onClick={() => history.push(`/chat/${fetchedUser._id}`)}
+            className={secondaryButtonStyles}>Whisper</button>
           </div>
 
           <div className="bg-primary-light md:bg-primary-dark flex items-center justify-evenly mt-3 px-10 py-2 rounded-xl">

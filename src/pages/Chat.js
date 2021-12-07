@@ -13,14 +13,43 @@ import SendMessage from "../components/sendMessage";
 const ChatPage = (props) => {
   const [chatList, setChatList] = useState(null);
 
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [bannerData, setBannerData] = useState(null);
 
   const socket = useRef();
 
-  console.log(props);
+  const messagesEndRef = useRef(null)
+
+  const scrollToBottom = () => {
+    if(messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
+  useEffect(scrollToBottom, [messages]);
+
+  // For fetching the banner data in the URL
+  useEffect(() => {
+    fetch(`${baseUrl}/api/user/${props.match.params.id}`, {
+      headers: { Authorization: props.user.token },
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          // console.log(data)
+          setBannerData(data)
+        } else {
+
+        }
+      })
+      .catch((err) => console.log("xD", err));
+  },[props.match.params.id, props.user.token])
+
+  // console.log(props);
 
   // For Connecting the Socket
+
   useEffect(() => {
     if (!socket.current) {
       socket.current = io(baseUrl, { transports: ["polling"] });
@@ -35,6 +64,7 @@ const ChatPage = (props) => {
     };
   }, [props.user._id]);
 
+
   // For Loading the messages
   useEffect(() => {
     const loadMessages = () => {
@@ -48,13 +78,12 @@ const ChatPage = (props) => {
     }
     if (socket.current) {
       socket.current.on("messagesLoaded", ({ chat }) => {
-        console.log(chat);
+        // console.log(chat);
         setMessages(chat.messages);
         setBannerData(chat.messageWith);
       });
       socket.current.on("noPreviousChat", () => {
-        setMessages(null);
-        setBannerData(null);
+        setMessages([]);
       });
     }
   }, [props.match.params.id, props.user._id]);
@@ -83,13 +112,35 @@ const ChatPage = (props) => {
     if (socket.current) {
       socket.current.on("messageSent", ({ newMessage }) => {
         if (newMessage.receiver === props.match.params.id) {
-          setMessages((previous) => [...previous, newMessage]);
+          setMessages((previous) => {
+            if(previous.length > 0) {
+              return [...previous, newMessage]
+            }
+            else {
+              return [newMessage]
+            }
+          })
+          
         }
       });
+
+      socket.current.on('newMessageReceived', async({ newMessage }) => {
+        if(newMessage.sender === props.match.params.id) {
+          setMessages((previous) => {
+            if(previous.length > 0) {
+              return [...previous, newMessage]
+            }
+            else {
+              return [newMessage]
+            }
+          })
+        }
+      })
+
     }
   }, [props.match.params.id]);
 
-  // Function for sending a Message
+
   const sendMessage = (text) => {
     if (socket.current) {
       socket.current.emit("sendNewMessage", {
@@ -101,6 +152,9 @@ const ChatPage = (props) => {
     }
     return;
   };
+
+    // For Loading Bannder Data FirstTime
+
 
   // console.log(chatList);
   return (
@@ -132,17 +186,16 @@ const ChatPage = (props) => {
                         <div className="ml-2">
                           <p className="font-bold  hover:text-secondary transition-all duration-300 transform hover:scale-110 text-greyText">
                             {x.messagesWithUser}
-                          </p>
-                          <p className=" text-greyText  hover:text-secondary transition-all duration-300 transform hover:scale-110 ">
-                            {x.lastMessage.msg.length > 30
+                          </p>                      <p className=" text-greyText  hover:text-secondary transition-all duration-300 transform hover:scale-110 ">
+                            { x && x.lastMessage && x.lastMessage.msg && x.lastMessage.msg.length > 30
                               ? x.lastMessage.msg.slice(0, 30)
-                              : x.lastMessage.msg}
-                          </p>
+                              : (x && x.lastMessage && x.lastMessage.msg) ? x.lastMessage.msg : 'No data'}
+                            </p>
                         </div>
                       </div>
                     );
                   })
-                : "no data"}
+                : <p className='text-center text-greyText font-semibold text-xl mt-10 p-10'>No Chat List Found</p>}
             </div>
 
             <div
@@ -177,7 +230,7 @@ const ChatPage = (props) => {
                   </div>
                   {/*Banner Data end*/}
                   <div
-                    className="overflow-y-scroll p-3"
+                    className="overflow-y-scroll p-3 relative"
                     style={{ height: "60vh" }}
                   >
                     {/*A chat message*/}
@@ -185,7 +238,7 @@ const ChatPage = (props) => {
                       messages.map((x) => {
                         return (
                           <div
-                            key={x.date}
+                            key={Math.random() * (100000 - 1) + 1}
                             className={`flex mt-4 mb-2 ml-2 ${
                               x.sender === props.user._id
                                 ? "justify-end"
@@ -221,6 +274,7 @@ const ChatPage = (props) => {
                         </p>
                       </div>
                     )}
+                    <div ref={messagesEndRef} />
                   </div>
                   <SendMessage sendMessage={sendMessage} />
                 </div>
