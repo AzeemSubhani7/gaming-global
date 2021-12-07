@@ -2,16 +2,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import io from "socket.io-client";
+import Moment from "react-moment";
 // Components
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-// Classes
-import { defaultButtonStyles } from "../components/Button/Button";
 // Utils
 import { baseUrl } from "../utils/backendUrl";
+import SendMessage from "../components/sendMessage";
 
 const ChatPage = (props) => {
-  const [messageToSend, setMessageToSend] = useState(null);
   const [chatList, setChatList] = useState(null);
 
   const [messages, setMessages] = useState(null);
@@ -21,6 +20,7 @@ const ChatPage = (props) => {
 
   console.log(props);
 
+  // For Connecting the Socket
   useEffect(() => {
     if (!socket.current) {
       socket.current = io(baseUrl, { transports: ["polling"] });
@@ -28,55 +28,79 @@ const ChatPage = (props) => {
 
     if (socket.current) {
       socket.current.emit("join", { userId: props.user._id });
-
     }
     return () => {
-      socket.current.emit('disconnected')
+      socket.current.emit("disconnected");
       socket.current.off();
-    }
+    };
   }, [props.user._id]);
 
-
-  useEffect(() => { 
+  // For Loading the messages
+  useEffect(() => {
     const loadMessages = () => {
       socket.current.emit("loadMessages", {
         userId: props.user._id,
         messagesWith: props.match.params.id,
       });
     };
-    if(socket.current) {
-      loadMessages()
+    if (socket.current) {
+      loadMessages();
     }
-    if(socket.current) {
-      socket.current.on('messagesLoaded', ({ chat }) => {
+    if (socket.current) {
+      socket.current.on("messagesLoaded", ({ chat }) => {
         console.log(chat);
         setMessages(chat.messages);
         setBannerData(chat.messageWith);
-      })
-      socket.current.on('noPreviousChat', () => {
+      });
+      socket.current.on("noPreviousChat", () => {
         setMessages(null);
         setBannerData(null);
-      })
+      });
     }
   }, [props.match.params.id, props.user._id]);
 
-    // For Fetching the Chat Lists
-    useEffect(() => {
-      fetch(`${baseUrl}/api/chat/getchats`, {
-        headers: { Authorization: props.user.token },
-        method: "GET",
+  // For Fetching the Chat Lists
+  useEffect(() => {
+    fetch(`${baseUrl}/api/chat/getchats`, {
+      headers: { Authorization: props.user.token },
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setChatList(false);
+        } else {
+          setChatList(data);
+        }
+        // console.log(data);
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.error) {
-            setChatList(false);
-          } else {
-            setChatList(data);
-          }
-          // console.log(data);
-        })
-        .catch((err) => console.log("xD", err));
-    }, [props.user.token]);
+      .catch((err) => console.log("xD", err));
+  }, [props.user.token, messages]);
+
+  // For Confirming that message is send and Receiving the messages
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("messageSent", ({ newMessage }) => {
+        if (newMessage.receiver === props.match.params.id) {
+          setMessages((previous) => [...previous, newMessage]);
+        }
+      });
+    }
+  }, [props.match.params.id]);
+
+  // Function for sending a Message
+  const sendMessage = (text) => {
+    if (socket.current) {
+      socket.current.emit("sendNewMessage", {
+        userId: props.user._id,
+        messageSendToUserId: props.match.params.id,
+        message: text,
+      });
+      return;
+    }
+    return;
+  };
 
   // console.log(chatList);
   return (
@@ -94,11 +118,10 @@ const ChatPage = (props) => {
                     return (
                       <div
                         key={x.messagesWith}
-                        onClick={() =>{
-                          props.history.push(`/chat/${x.messagesWith}`)
-                          setBannerData(x.messageWith)
-                          }
-                        }
+                        onClick={() => {
+                          props.history.push(`/chat/${x.messagesWith}`);
+                          setBannerData(x.messageWith);
+                        }}
                         className="h-20 rounded-lg cursor-pointer bg-primary p-4 my-2 flex items-center"
                       >
                         <img
@@ -111,7 +134,9 @@ const ChatPage = (props) => {
                             {x.messagesWithUser}
                           </p>
                           <p className=" text-greyText  hover:text-secondary transition-all duration-300 transform hover:scale-110 ">
-                            {x.lastMessage.msg}
+                            {x.lastMessage.msg.length > 30
+                              ? x.lastMessage.msg.slice(0, 30)
+                              : x.lastMessage.msg}
                           </p>
                         </div>
                       </div>
@@ -147,7 +172,7 @@ const ChatPage = (props) => {
                       className="h-12 ml-2 w-12 rounded-full"
                     />
                     <p className="ml-4 text-xl hover:text-secondary transition-all duration-300 transform hover:scale-110 cursor-pointer text-greyText font-semibold">
-                      { bannerData ? bannerData.userName : 'no Data' }
+                      {bannerData ? bannerData.userName : "no Data"}
                     </p>
                   </div>
                   {/*Banner Data end*/}
@@ -156,73 +181,48 @@ const ChatPage = (props) => {
                     style={{ height: "60vh" }}
                   >
                     {/*A chat message*/}
-                    {
-                      messages && messages.length > 0 ? 
-                      messages.map(x => {
-                        return(
-                          <div key={x.date} className={`flex mt-4 mb-2 ml-2 ${x.sender === props.user._id ? 'justify-end' : 'justify-start'}`}>
-                            <div className ={`rounded-md p-2 ${x.sender === props.user._id ? 'bg-primary-light text-greyText' : 'bg-secondary text-white'} `}>
-                              {x.msg}
+                    {messages && messages.length > 0 ? (
+                      messages.map((x) => {
+                        return (
+                          <div
+                            key={x.date}
+                            className={`flex mt-4 mb-2 ml-2 ${
+                              x.sender === props.user._id
+                                ? "justify-end"
+                                : "justify-start"
+                            }`}
+                          >
+                            <div
+                              className={`rounded-md p-2 ${
+                                x.sender === props.user._id
+                                  ? "bg-primary-light text-greyText"
+                                  : "bg-secondary text-white"
+                              } `}
+                            >
+                              <p className="text-lg">{x.msg}</p>
+                              <p
+                                className={`flex ${
+                                  x.sender === props.user._id
+                                    ? " text-greyText justify-end"
+                                    : " text-white justify-start"
+                                } `}
+                                style={{ fontSize: "10px" }}
+                              >
+                                <Moment date={x.date} format="LLLL" />
+                              </p>
                             </div>
                           </div>
-                        )
+                        );
                       })
-                     : <div className="flex items-center justify-center">
-                     <p className="text-greyText font-semibold text-center text-xl">
-                       No Data to Show
-                     </p>
-                   </div> } 
-                    {/*<div className="flex justify-start mt-4 mb-2 ml-2">
-                      <div className="bg-secondary rounded-md p-2 text-white">
-                        Hello Man How are you XD
+                    ) : (
+                      <div className="flex items-center justify-center">
+                        <p className="text-greyText font-semibold text-center text-xl">
+                          No Data to Show
+                        </p>
                       </div>
-                    </div>
-
-                    <div className="flex justify-end mt-4 mb-2 mr-2">
-                      <div className="bg-primary-light rounded-md text-greyText p-2">
-                        I'am fine what about youe
-                      </div>
-                    </div>
-
-                    <div className="flex justify-start mt-4 mb-2 ml-2">
-                      <div className="bg-secondary rounded-md p-2 text-white">
-                        im fine can i borrow your PC
-                      </div>
-                    </div>
-
-                    <div className="flex justify-end mt-4 mb-2 mr-2">
-                      <div className="bg-primary-light rounded-md text-greyText p-2">
-                        Nah bro i've to play valorant
-                      </div>
-                    </div>
-
-                    <div className="flex justify-start mt-4 mb-2 ml-2">
-                      <div className="bg-secondary rounded-md p-2 text-white">
-                        I've a tournament to play
-                      </div>
-                    </div>
-
-                    <div className="flex justify-end mt-4 mb-2 mr-2">
-                      <div className="bg-primary-light rounded-md text-greyText p-2">
-                        Sure, then please return it on the same day
-                      </div>
-                    </div>*/}
+                    )}
                   </div>
-                  <div className="message-send flex">
-                    <input
-                      name="nooooo"
-                      className="bg-inputBg m-4 w-full rounded-3xl outline-none sm:pr-5 py-2 pl-4 pr-5 placeholder-greyPlaceholder text-greyText text-sm"
-                      placeholder="Write A message"
-                      onChange={(event) => setMessageToSend(event.target.value)}
-                      autoComplete="hidden"
-                    />
-                    <button
-                      disabled={messageToSend ? false : true}
-                      className={`${defaultButtonStyles} m-4`}
-                    >
-                      Send
-                    </button>
-                  </div>
+                  <SendMessage sendMessage={sendMessage} />
                 </div>
               )}
             </div>
