@@ -14,12 +14,12 @@ const ChatPage = (props) => {
   const [messageToSend, setMessageToSend] = useState(null);
   const [chatList, setChatList] = useState(null);
 
-  // const [messages, setMessages] = useState(null);
-  // const [bannerData, setBannerData] = useState(null);
+  const [messages, setMessages] = useState(null);
+  const [bannerData, setBannerData] = useState(null);
 
   const socket = useRef();
 
-  // console.log(props);
+  console.log(props);
 
   useEffect(() => {
     if (!socket.current) {
@@ -50,6 +50,12 @@ const ChatPage = (props) => {
     if(socket.current) {
       socket.current.on('messagesLoaded', ({ chat }) => {
         console.log(chat);
+        setMessages(chat.messages);
+        setBannerData(chat.messageWith);
+      })
+      socket.current.on('noPreviousChat', () => {
+        setMessages(null);
+        setBannerData(null);
       })
     }
   }, [props.match.params.id, props.user._id]);
@@ -88,8 +94,10 @@ const ChatPage = (props) => {
                     return (
                       <div
                         key={x.messagesWith}
-                        onClick={() =>
+                        onClick={() =>{
                           props.history.push(`/chat/${x.messagesWith}`)
+                          setBannerData(x.messageWith)
+                          }
                         }
                         className="h-20 rounded-lg cursor-pointer bg-primary p-4 my-2 flex items-center"
                       >
@@ -139,7 +147,7 @@ const ChatPage = (props) => {
                       className="h-12 ml-2 w-12 rounded-full"
                     />
                     <p className="ml-4 text-xl hover:text-secondary transition-all duration-300 transform hover:scale-110 cursor-pointer text-greyText font-semibold">
-                      Azeem Subhani
+                      { bannerData ? bannerData.userName : 'no Data' }
                     </p>
                   </div>
                   {/*Banner Data end*/}
@@ -148,7 +156,23 @@ const ChatPage = (props) => {
                     style={{ height: "60vh" }}
                   >
                     {/*A chat message*/}
-                    <div className="flex justify-start mt-4 mb-2 ml-2">
+                    {
+                      messages && messages.length > 0 ? 
+                      messages.map(x => {
+                        return(
+                          <div key={x.date} className={`flex mt-4 mb-2 ml-2 ${x.sender === props.user._id ? 'justify-end' : 'justify-start'}`}>
+                            <div className ={`rounded-md p-2 ${x.sender === props.user._id ? 'bg-primary-light text-greyText' : 'bg-secondary text-white'} `}>
+                              {x.msg}
+                            </div>
+                          </div>
+                        )
+                      })
+                     : <div className="flex items-center justify-center">
+                     <p className="text-greyText font-semibold text-center text-xl">
+                       No Data to Show
+                     </p>
+                   </div> } 
+                    {/*<div className="flex justify-start mt-4 mb-2 ml-2">
                       <div className="bg-secondary rounded-md p-2 text-white">
                         Hello Man How are you XD
                       </div>
@@ -182,7 +206,7 @@ const ChatPage = (props) => {
                       <div className="bg-primary-light rounded-md text-greyText p-2">
                         Sure, then please return it on the same day
                       </div>
-                    </div>
+                    </div>*/}
                   </div>
                   <div className="message-send flex">
                     <input
