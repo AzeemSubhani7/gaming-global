@@ -10,6 +10,8 @@ import CoursesPage from "./pages/Courses";
 import SensitivityConverterPage from "./pages/SensitivityConverter";
 import RainbowSixSeigeStatisticsPage from "./pages/Statistics/RainbowSixSeigeStatistics";
 import FortniteStatisticsPage from "./pages/Statistics/FortniteStatistics";
+import FortniteCoursePage from "./pages/FortniteCourse";
+import RainbowCoursePage from "./pages/RainbowCourse";
 import SignUpPage from "./pages/SignUp";
 import SocialPage from "./pages/Social";
 import LoginPage from "./pages/Login";
@@ -17,6 +19,8 @@ import ProfilePage from "./pages/Profile/Profile";
 import FeedPage from "./pages/Feed/Feed";
 import PostPage from "./pages/Feed/PostPage";
 import ChatPage from "./pages/Chat";
+
+
 
 // Components
 
@@ -27,14 +31,16 @@ function App() {
           <Route path='/' exact component={HomePage} />
           <Route path='/statistics' exact component={StaticsticsPage} />
           <Route path='/patches' component={PatchesPage} />
-          <Route path='/courses' component={CoursesPage} />
+          <Route path='/courses' exact component={CoursesPage} />
           <Route path='/sensitivityconverter' component={SensitivityConverterPage} />
           <Route path='/signup' component={SignUpPage} />
           <Route path='/social' exact component={SocialPage} />
           <Route path='/login' component={LoginPage} />
                 {/*Pages with 2 slashes*/}
           <Route path='/statistics/rainbowsixseige' component={RainbowSixSeigeStatisticsPage} />
+          <Route path='/courses/rainbowsixseige' component={RainbowCoursePage} />
           <Route path='/statistics/fortnite' component={FortniteStatisticsPage} />
+          <Route path='/courses/fortnite' component={FortniteCoursePage} />
           <Route path='/profile/user/:id' exact component={ProfilePage} />
           <Route path='/profile/feed' component={FeedPage} />
           <Route path ='/posts/:id' component={PostPage} />
