@@ -19,6 +19,7 @@ import ProfilePage from "./pages/Profile/Profile";
 import FeedPage from "./pages/Feed/Feed";
 import PostPage from "./pages/Feed/PostPage";
 import ChatPage from "./pages/Chat";
+import DashBoardPage from "./pages/adminDashboard";
 
 
 
@@ -36,6 +37,7 @@ function App() {
           <Route path='/signup' component={SignUpPage} />
           <Route path='/social' exact component={SocialPage} />
           <Route path='/login' component={LoginPage} />
+          <Route path='/dashboard' component={DashBoardPage} />
                 {/*Pages with 2 slashes*/}
           <Route path='/statistics/rainbowsixseige' component={RainbowSixSeigeStatisticsPage} />
           <Route path='/courses/rainbowsixseige' component={RainbowCoursePage} />
