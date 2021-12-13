@@ -219,7 +219,7 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
           <Dialog.Overlay className="bg-green-400" />
           <div
             className="bg-primary-light rounded-xl  flex flex-col justify-center items-center p-5"
-            style={{ width: "300px" }}
+            style={{ width: "600px" }}
           >
             <Dialog.Title className="text-2xl mb-3 text-center text-greyText">
               Notifications of{" "}

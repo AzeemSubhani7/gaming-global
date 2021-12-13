@@ -248,6 +248,7 @@ const ChatPage = (props) => {
                                 : "justify-start"
                             }`}
                           >
+                          <div ref={messagesEndRef} />
                             <div
                               className={`rounded-md p-2 ${
                                 x.sender === props.user._id
@@ -277,7 +278,7 @@ const ChatPage = (props) => {
                         </p>
                       </div>
                     )}
-                    <div ref={messagesEndRef} />
+                    
                   </div>
                   <SendMessage sendMessage={sendMessage} />
                 </div>

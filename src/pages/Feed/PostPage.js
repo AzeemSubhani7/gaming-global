@@ -8,7 +8,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 // Icons
-import { HeartIcon } from "@heroicons/react/solid";
+import { HeartIcon, ShieldCheckIcon } from "@heroicons/react/solid";
 import { EmojiSadIcon } from "@heroicons/react/solid";
 import { XCircleIcon } from "@heroicons/react/solid";
 // Classes
@@ -41,6 +41,7 @@ const PostPage = (props) => {
           }
         );
         if (response.data) {
+          console.log(response.data);
           setPost(response.data);
         }
       } catch (e) {
@@ -232,6 +233,15 @@ const PostPage = (props) => {
                 onClick={() => navigateToUserProfile(post.user._id)}
                 className="cursor-pointer transform  hover:scale-110 hover:text-secondary transition-all duration-300">
                 {post.user.userName}
+              </div>
+              <div className='admin Check'>
+              {
+                post.user.role === 'root' ? <ShieldCheckIcon
+                className={`
+                    text-greyText
+                  w-8 h-8`}
+              /> : null
+              }
               </div>
             </div>
             <div className="cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300">

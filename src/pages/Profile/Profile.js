@@ -8,7 +8,7 @@ import {
   defaultButtonStyles,
   secondaryButtonStyles,
 } from "../../components/Button/Button";
-import { XCircleIcon } from "@heroicons/react/outline";
+import { XCircleIcon, ShieldCheckIcon } from "@heroicons/react/outline";
 import { Transition, Dialog } from "@headlessui/react";
 // Components
 import Header from "../../components/Header/Header";
@@ -350,6 +350,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
 
   // console.log(posts);
   // console.log(fetchedUserProfileInfo);
+
   // User logged-in is Visiting his own profile
   if (fetchedUser._id === user._id) {
     return (
@@ -386,8 +387,17 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
               />
             </div>
 
-            <div className="text-center font-medium text-3xl mt-3 text-greyText">
+            <div className="text-center flex items-center font-medium text-3xl mt-3 text-greyText">
               {fetchedUser.userName}
+              <div className="admin Check m-2">
+                {fetchedUser.role === "root" ? (
+                  <ShieldCheckIcon
+                    className={`
+                    text-greyText
+                  w-8 h-8`}
+                  />
+                ) : null}
+              </div>
             </div>
             {/*A bit of logic in future*/}
             <div className="my-2 flex space-x-4">
@@ -426,13 +436,19 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
             </div>
           </div>
           {/*Second Section*/}
-          { posts ? posts.map((post) => {
-            return (
-              <div key={post._id}>
-                <Posts userName={post.user.userName} postText={post.postText} postId={post._id} />
-              </div>
-            );
-          }) : null}
+          {posts
+            ? posts.map((post) => {
+                return (
+                  <div key={post._id}>
+                    <Posts
+                      userName={post.user.userName}
+                      postText={post.postText}
+                      postId={post._id}
+                    />
+                  </div>
+                );
+              })
+            : null}
         </div>
         {/* Modals for openning followers*/}
 
@@ -599,8 +615,17 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
             />
           </div>
 
-          <div className="text-center font-medium text-3xl mt-3 text-greyText">
+          <div className="text-center flex items-center font-medium text-3xl mt-3 text-greyText">
             {fetchedUser.userName}
+            <div className="admin Check m-2">
+              {fetchedUser.role === "root" ? (
+                <ShieldCheckIcon
+                  className={`
+                text-greyText
+              w-8 h-8`}
+                />
+              ) : null}
+            </div>
           </div>
           {/*A bit of logic in future*/}
           <div className="my-2 flex space-x-4">
@@ -611,8 +636,11 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
               {followFlag}
             </button>
             <button
-            onClick={() => history.push(`/chat/${fetchedUser._id}`)}
-            className={secondaryButtonStyles}>Whisper</button>
+              onClick={() => history.push(`/chat/${fetchedUser._id}`)}
+              className={secondaryButtonStyles}
+            >
+              Whisper
+            </button>
           </div>
 
           <div className="bg-primary-light md:bg-primary-dark flex items-center justify-evenly mt-3 px-10 py-2 rounded-xl">
@@ -647,13 +675,19 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
         </div>
         {/*Second Section*/}
 
-        { posts ? posts.map((post) => {
-          return (
-            <div key={post._id}>
-              <Posts userName={post.user.userName} postText={post.postText} postId={post._id} />
-            </div>
-          );
-        }) : null}
+        {posts
+          ? posts.map((post) => {
+              return (
+                <div key={post._id}>
+                  <Posts
+                    userName={post.user.userName}
+                    postText={post.postText}
+                    postId={post._id}
+                  />
+                </div>
+              );
+            })
+          : null}
       </div>
 
       {/* Modals for openning followers*/}
