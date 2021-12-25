@@ -39,7 +39,7 @@ const DashBoardPage = () => {
               onClick={() => setRenderComponent("report")}
               className="item font-medium text-xl hover:text-secondary cursor-pointer transform transition-all duration-300 hover:scale-105 text-greyText"
             >
-              Reports
+              Reported Posts
             </div>
             <div
               onClick={() => setRenderComponent("patches")}

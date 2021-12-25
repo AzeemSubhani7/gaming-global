@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { baseUrl } from "../../utils/backendUrl";
 import { XCircleIcon } from "@heroicons/react/outline";
 import { useHistory } from "react-router";
+import { defaultButtonStyles } from "../../components/Button/Button";
 
 function DashboardReport(props) {
   const [reports, setReports] = useState([]);
@@ -37,7 +38,19 @@ function DashboardReport(props) {
       alert(error);
     }
   }
+  const banUser = async (id) => {
+    try {
+      const response = await axios.post(`${baseUrl}/api/admin/banuser/${id}`);
+      if (response.data) {
+        console.log("banned user");
+        setChange((change) => !change);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  console.log(reports);
   return (
     <div className="reports main">
       {reports.length > 0 ? (
@@ -59,6 +72,14 @@ function DashboardReport(props) {
                 </div>
                 <div className='ml-6 mt-2'>
                   Post Text : {x.post.postText}
+                </div>
+                <div className='ml-6 mt-2 '>
+                  Poster:  <span className='font-medium text-lg text-secondary'>{x.post.user.userName}</span>
+                </div>
+                <div className='ml-6 mt-4'>
+                  <button 
+                  onClick={() => banUser(x.post.user._id)}
+                  className={defaultButtonStyles}>Ban User</button>
                 </div>
               </div>
               <div

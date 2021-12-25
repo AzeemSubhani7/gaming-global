@@ -10,6 +10,7 @@ import {
   LogoutIcon,
   PresentationChartBarIcon,
   XCircleIcon,
+  SparklesIcon
 } from "@heroicons/react/outline";
 
 import { Transition, Dialog } from "@headlessui/react";
@@ -170,6 +171,12 @@ const SocialPage = ({ history, user, clearLoggedUser }) => {
             className="flex items-center justify-evenly hover:text-secondary cursor-pointer transform transition-all duration-300 hover:scale-105"
           >
             <TableIcon className="w-6 h-6 mr-2" /> Feed
+          </Link>
+          <Link
+            to="/scrims"
+            className="flex items-center justify-evenly hover:text-secondary cursor-pointer transform transition-all duration-300 hover:scale-105"
+          >
+            <SparklesIcon className="w-6 h-6 mr-2" /> Scrims
           </Link>
           {user.role === "root" ? (
             <Link
