@@ -8,6 +8,7 @@ import DashboardHome from "./dashboard/dashboardHome";
 import DashboardUser from "./dashboard/dashboardUser";
 import DashboardPost from "./dashboard/dashboardPost";
 import DashboardReport from "./dashboard/dashboardReport";
+import DashboardAddPatch from "./dashboard/dashboardAddPatch";
 
 const DashBoardPage = () => {
   const [renderComponent, setRenderComponent] = useState("home");
@@ -42,12 +43,6 @@ const DashBoardPage = () => {
               Reported Posts
             </div>
             <div
-              onClick={() => setRenderComponent("patches")}
-              className="item font-medium text-xl hover:text-secondary cursor-pointer transform transition-all duration-300 hover:scale-105 text-greyText"
-            >
-              Patches
-            </div>
-            <div
               onClick={() => setRenderComponent("addpatches")}
               className="item font-medium text-xl hover:text-secondary cursor-pointer transform transition-all duration-300 hover:scale-105 text-greyText"
             >
@@ -62,6 +57,7 @@ const DashBoardPage = () => {
         { renderComponent === 'user' ?  <DashboardUser /> : null }
         { renderComponent === 'post' ? <DashboardPost /> : null }
         { renderComponent === 'report' ? <DashboardReport /> : null }
+        { renderComponent === 'addpatches' ? <DashboardAddPatch /> : null}
         </div>
       </div>
       <Footer />

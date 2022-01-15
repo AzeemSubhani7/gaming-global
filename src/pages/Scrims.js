@@ -112,6 +112,9 @@ const ScrimPage = ({ user }) => {
       if (item.going) {
         return item;
       }
+      else {
+        return 
+      }
     });
     console.log(list);
     setScrims(list);

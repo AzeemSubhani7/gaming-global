@@ -21,7 +21,8 @@ import PostPage from "./pages/Feed/PostPage";
 import ChatPage from "./pages/Chat";
 import DashBoardPage from "./pages/adminDashboard";
 import ScrimPage from "./pages/Scrims";
-
+import RainbowPatchPage from "./pages/Patche/RainbowPatch";
+import FortnitePatchPage from "./pages/Patche/FortnitePatch";
 
 // Components
 
@@ -31,7 +32,7 @@ function App() {
       <Switch>
           <Route path='/' exact component={HomePage} />
           <Route path='/statistics' exact component={StaticsticsPage} />
-          <Route path='/patches' component={PatchesPage} />
+          <Route path='/patches' exact component={PatchesPage} />
           <Route path='/courses' exact component={CoursesPage} />
           <Route path='/sensitivityconverter' component={SensitivityConverterPage} />
           <Route path='/signup' component={SignUpPage} />
@@ -41,9 +42,14 @@ function App() {
           <Route path='/scrims' component={ScrimPage} />
                 {/*Pages with 2 slashes*/}
           <Route path='/statistics/rainbowsixseige' component={RainbowSixSeigeStatisticsPage} />
-          <Route path='/courses/rainbowsixseige' component={RainbowCoursePage} />
           <Route path='/statistics/fortnite' component={FortniteStatisticsPage} />
+
+          <Route path='/courses/rainbowsixseige' component={RainbowCoursePage} />
           <Route path='/courses/fortnite' component={FortniteCoursePage} />
+          
+          <Route path='/patches/rainbowsixseige' component={RainbowPatchPage} />
+          <Route path='/patches/fortnite' component={FortnitePatchPage} />
+          
           <Route path='/profile/user/:id' exact component={ProfilePage} />
           <Route path='/profile/feed' component={FeedPage} />
           <Route path ='/posts/:id' component={PostPage} />
