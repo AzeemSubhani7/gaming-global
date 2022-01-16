@@ -1,6 +1,8 @@
 // Libraries
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import { XCircleIcon } from "@heroicons/react/outline";
 // Components
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -11,7 +13,7 @@ import { linearImageHeadingClasses } from "../../utils/combinedClasses";
 import PatchesImage from "../../images/fortnite_statistics_final.jpg"
 import { baseUrl } from "../../utils/backendUrl";
 
-const FortnitePatchPage = () => {
+const FortnitePatchPage = (props) => {
   const [patches, setPatches] = useState('')
   useEffect(() => {
     const getPatches = async () => {
@@ -30,8 +32,22 @@ const FortnitePatchPage = () => {
     getPatches();
   },[])
 
+  const deletePatch = async(id) => {
+    try{
+      const response = await axios.delete(`${baseUrl}/delpatch/${id}`)
+      if(response.data) {
+        alert("Patch Has been deleted!")
+        props.history.push('/patches')
+      }
+    }
+    catch(error) {
+      alert(error)
+      console.log(error)
+      props.history.push('/patches')
+    }
+  }
 
-  console.log(patches)
+  console.log(props)
   return (
     <div>
       <Header />
@@ -49,7 +65,7 @@ const FortnitePatchPage = () => {
           </p>
         </div>
       </div>
-
+      {patches.length === 0 ? <div className='text-center text-2xl text-greyText'>Currently No Patches To Show</div> : null}
       <div className="Fortnite All Pathces">
         {/**/}
         {
@@ -57,7 +73,12 @@ const FortnitePatchPage = () => {
             return (
               <div key={x._id} className="p-3 mt-10 flex flex-col justify-center mx-auto">
           <div className="mt-2 px-32">
-            <div className="h-auto w-full py-20 px-10 bg-gradient-to-tr from-indigo-600 to-blue-300 flex flex-col space-y-5 mx-auto rounded-3xl shadow-xl hover:rotate-1 transition-transform">
+            <div className="h-auto w-full py-20 px-10 bg-gradient-to-tr relative from-indigo-600 to-blue-300 flex flex-col space-y-5 mx-auto rounded-3xl shadow-xl hover:rotate-1 transition-transform">
+            {props.user.role === 'root' ? 
+                <p><XCircleIcon 
+                onClick={() => deletePatch(x._id)}
+                className='h-6 w-6 hover:text-secondary absolute top-4 right-4 cursor-pointer transition-all duration-300 transform hover:scale-110 text-white' /></p>
+              : null}
               <h1 className=" font-medium text-white text-2xl tracking-wide">
                 {x.title}
               </h1>
@@ -120,4 +141,9 @@ const FortnitePatchPage = () => {
   );
 };
 
-export default FortnitePatchPage;
+const mapStateToProps = (state) => {
+  return {
+    user: state.userState.user,
+  };
+};
+export default connect(mapStateToProps)(FortnitePatchPage);

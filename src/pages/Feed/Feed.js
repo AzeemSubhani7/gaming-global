@@ -70,10 +70,10 @@ const FeedPage = ({ userId, token, history }) => {
               onChange={handleChange}
             ></textarea>
             <div className="flex items-end flex-col">
-              <label className={`w-36 mt-2 h-11 flex  rounded-2xl justify-center flex-col  items-center space-x-3 ${secondaryButtonStyles} `}>
+              {/*<label className={`w-36 mt-2 h-11 flex  rounded-2xl justify-center flex-col  items-center space-x-3 ${secondaryButtonStyles} `}>
                 <span className="font-medium text-base">Add Image</span>
                 <input type="file" className="hidden" />
-              </label>
+              </label>*/}
               <button 
               className={`${defaultButtonStyles} mt-2`}
               disabled={!postText}

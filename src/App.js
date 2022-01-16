@@ -23,6 +23,7 @@ import DashBoardPage from "./pages/adminDashboard";
 import ScrimPage from "./pages/Scrims";
 import RainbowPatchPage from "./pages/Patche/RainbowPatch";
 import FortnitePatchPage from "./pages/Patche/FortnitePatch";
+import EditProfilePage from "./pages/EditProfile";
 
 // Components
 
@@ -55,6 +56,7 @@ function App() {
           <Route path ='/posts/:id' component={PostPage} />
           <Route path = '/chat/:id' component={ChatPage} />
 
+          <Route path='/edit/profile' component={EditProfilePage} />
       </Switch>
     </BrowserRouter>
   );

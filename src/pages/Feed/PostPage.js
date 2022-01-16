@@ -1,7 +1,11 @@
 // Core Libraries
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { connect } from "react-redux";
 import Loader from "react-loader-spinner";
+import { Transition, Dialog } from "@headlessui/react";
+import {
+  secondaryButtonStyles,
+} from "../../components/Button/Button";
 import axios from "axios";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 // Components
@@ -24,11 +28,24 @@ const PostPage = (props) => {
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
+
 
   const [isPostLiked, setIsPostLiked] = useState(null);
   const [isPostUnliked, setIsPostUnliked] = useState(null);
   const [makeComment, setMakeComment] = useState("");
   const [statusCode, setStatusCode] = useState(null);
+  const [reportText, setReportText] = useState('')
+  const [reportDisable, setReportDisable] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setReportDisable(false)
+    if(!reportText) {
+      setReportDisable(true)
+    }
+  },[reportText])
+  const closeReportModal = () => setReportOpen(false);
 
   // Use-Effect for fetching the psot!
   useEffect(() => {
@@ -181,8 +198,48 @@ const PostPage = (props) => {
     setMakeComment(event.target.value);
   };
 
-  // console.log(post);
+  console.log(post);
+  console.log(props)
   // console.log(error);
+
+  const handleReport = () => {
+    fetch(`${baseUrl}/api/reports/${props.match.params.id}`, {
+      headers: {
+        Authorization: props.token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ reportText: reportText }),
+      method: "POST",
+    })
+      .then((res) => {
+        setIsLoading(false);
+        return res.json();
+      })
+      .then((data) => {
+        setIsLoading(false);
+        setReportOpen(false)
+        alert("Report has been Sent to the admin")
+        return console.log(data);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+      });
+  }
+
+  const deleteThisPost = async() => {
+      try{
+        const response = await axios.delete(`${baseUrl}/api/admin/deletepost/${post._id}`);
+        if(response.data) {
+          console.log(response.data)
+          props.history.push('/profile/feed')
+        }
+      }
+      catch(error) {
+        console.error(error)
+      }
+    }
 
   if (error) {
     return (
@@ -244,8 +301,14 @@ const PostPage = (props) => {
               }
               </div>
             </div>
-            <div className="cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300">
-              <div>Report</div>
+            <div className=" flex items-center justify-center">
+              <div 
+              className='cursor-pointer transform hover:scale-110 hover:text-secondary transition-all duration-300'
+              onClick={() => setReportOpen(true)}>Report</div>
+              <div
+              className='cursor-pointer transform hover:scale-110 ml-4 hover:text-secondary transition-all duration-300'
+              onClick={() => deleteThisPost()}
+              >{ post.user._id === props.userIdxD ? "Delete" : null }</div>
             </div>
           </div>
           {/*Post Header Start section-1*/}
@@ -386,6 +449,95 @@ const PostPage = (props) => {
           {/*Last section of comments*/}
         </div>
       </div>
+      
+      {/* JSX FOR OPENING A MODAL FOR Loading */}
+      <Transition
+      show={reportOpen}
+      as={Fragment}
+        enter="transition-all ease-in-out duration-700 transform"
+        enterFrom="opacity-0 translate-y-full"
+        enterTo="translate-y-0 opacity-100"
+        leave="transition-all ease-in-out duration-700 transform"
+        leaveFrom="opacity-100 translate-y-0"
+        leaveTo="opacity-0 translate-y-full"
+    >
+      <Dialog
+        as="div"
+        open={reportOpen}
+        onClose={closeReportModal}
+        className="fixed flex items-center justify-center flex-col bg-primary-dark z-50 inset-0 overflow-hidden"
+      >
+        <Dialog.Overlay className="bg-green-400" />
+        <div
+          className="bg-primary-light rounded-xl flex flex-col justify-center items-center p-5"
+          style={{ width: "300px" }}
+        >
+          <Dialog.Title className="text-xl mb-3 text-center text-greyText">
+            Report This Post to the Admins
+          </Dialog.Title>
+
+          <Dialog.Description className="text-center text-greyText p-5">
+            <p className='text-greyText text-base'>Enter your Opinion</p>
+            <input
+            name="reporttext"
+            className="bg-inputBg mt-2 rounded-3xl outline-none sm:pr-5 py-2 pl-4 pr-5 placeholder-greyPlaceholder text-greyText text-sm"
+            placeholder="Enter Report Text"
+            type="reportText"
+            onChange={(event) => setReportText(event.target.value)}
+            autoComplete="false"
+            />
+          </Dialog.Description>
+
+          {isLoading ? (
+            <div style={{ display: "flex", alignItems: 'center', justifyContent: 'center' }}>
+              <Loader
+                visible={isLoading}
+                style={{ margin: 'auto' }}
+                type="MutatingDots"
+                secondaryColor="#d31c3e"
+                color="#D31C3E"
+                height={100}
+                width={100}
+              />
+            </div>
+          ) : null}
+
+          <p
+            className="text-center"
+            style={{
+              position: "absolute",
+              zIndex: "200",
+              top: "20px",
+              right: "20px",
+            }}
+          >
+            <XCircleIcon
+              onClick={() => {
+                setReportOpen(false)
+                // history.push('/')
+              }}
+              style={{ top: "10px", right: "10px" }}
+              className="h-10 w-10 absolute cursor-pointer transform transition-all duration-300 hover:scale-110 text-greyText hover:text-secondary"
+            />
+          </p>
+
+          <button
+            className={`${secondaryButtonStyles} mt-3`}
+            disabled={reportDisable}
+            onClick={() => {
+              setIsLoading(true)
+              handleReport()
+              console.log("Nice and easy")
+              // handleResetPassword()
+              // user ? history.push('/') : history.push('/login')
+            }}
+          >
+            Send Report
+          </button>
+        </div>
+      </Dialog>
+    </Transition>
+      {/* JSX FOR OPENING A MODAL FOR Resetting Password */}
       <Footer />
     </div>
   );

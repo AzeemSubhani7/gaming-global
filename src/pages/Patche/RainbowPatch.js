@@ -6,12 +6,14 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 // Utilities
 import LinearImageSection from "../../components/LinearImageSection/LinearImageSection";
+import { XCircleIcon } from "@heroicons/react/outline";
 import { secondaryHeadingClasses } from "../../utils/combinedClasses";
 import { linearImageHeadingClasses } from "../../utils/combinedClasses";
 import PatchesImage from "../../images/rainbowSix_charms.jpg";
 import { baseUrl } from "../../utils/backendUrl";
+import { connect } from "react-redux";
 
-const RainbowPatchPage = () => {
+const RainbowPatchPage = (props) => {
   const [patches, setPatches] = useState('')
   useEffect(() => {
     const getPatches = async () => {
@@ -30,8 +32,22 @@ const RainbowPatchPage = () => {
     getPatches();
   },[])
 
+  const deletePatch = async(id) => {
+    try{
+      const response = await axios.delete(`${baseUrl}/delpatch/${id}`)
+      if(response.data) {
+        alert("Patch Has been deleted!")
+        props.history.push('/patches')
+      }
+    }
+    catch(error) {
+      alert(error)
+      console.log(error)
+      props.history.push('/patches')
+    }
+  }
 
-  console.log(patches)
+  console.log(props)
   return (
     <div>
       <Header />
@@ -51,7 +67,7 @@ const RainbowPatchPage = () => {
           </p>
         </div>
       </div>
-
+      {patches.length === 0 ? <div className='text-center text-2xl text-greyText'>Currently No Patches To Show</div> : null}
       <div className="Rainbow All Pathces">
         {/**/}
         {
@@ -59,7 +75,12 @@ const RainbowPatchPage = () => {
             return (
               <div key={x._id} className="p-3 mt-10 flex flex-col justify-center mx-auto">
           <div className="mt-2 px-32">
-            <div className="h-auto w-full py-20 px-10 bg-gradient-to-tr from-purple-600 to-blue-500 flex flex-col space-y-5 mx-auto rounded-3xl shadow-xl hover:rotate-1 transition-transform">
+            <div className="h-auto w-full py-20 px-10 bg-gradient-to-tr from-purple-600 to-blue-500 relative flex flex-col space-y-5 mx-auto rounded-3xl shadow-xl hover:rotate-1 transition-transform">
+              {props.user.role === 'root' ? 
+                <p><XCircleIcon 
+                onClick={() => deletePatch(x._id)}
+                className='h-6 w-6 hover:text-secondary absolute top-4 right-4 cursor-pointer transition-all duration-300 transform hover:scale-110 text-white' /></p>
+              : null}
               <h1 className=" font-medium text-white text-2xl tracking-wide">
                 {x.title}
               </h1>
@@ -91,4 +112,11 @@ const RainbowPatchPage = () => {
   );
 };
 
-export default RainbowPatchPage;
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.userState.user,
+  };
+};
+
+export default connect(mapStateToProps)(RainbowPatchPage);

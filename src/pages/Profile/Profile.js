@@ -361,7 +361,7 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
           <div className="bg-primary-light overflow-hidden m-5 rounded-xl p-5 flex items-center flex-col relative">
             <PencilIcon
               onClick={() => {
-                console.log("Edit this profile");
+                history.push('/edit/profile')
               }}
               style={{ top: "10px", right: "20px" }}
               className="h-6 w-6 absolute cursor-pointer transform transition-all duration-300 hover:scale-110 text-greyText hover:text-secondary"
@@ -377,8 +377,8 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
               <img
                 src={
                   fetchedUser
-                    ? fetchedUser.userAvatar
-                      ? fetchedUser.userAvatar
+                    ? fetchedUser.profilepicUrl
+                      ? fetchedUser.profilepicUrl
                       : "https://picsum.photos/200/300?grayscale"
                     : null
                 }
@@ -605,8 +605,8 @@ const ProfilePage = ({ user, history, match, clearLoggedUser }) => {
             <img
               src={
                 fetchedUser
-                  ? fetchedUser.userAvatar
-                    ? fetchedUser.userAvatar
+                  ? fetchedUser.profilepicUrl
+                    ? fetchedUser.profilepicUrl
                     : "https://picsum.photos/200/300?grayscale"
                   : null
               }
