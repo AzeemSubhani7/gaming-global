@@ -2,7 +2,6 @@
   "name": "gaming-global",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://gaming-global-api.herokuapp.com",
   "dependencies": {
     "@craco/craco": "^6.2.0",
     "@headlessui/react": "^1.4.0",
