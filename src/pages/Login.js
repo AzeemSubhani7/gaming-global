@@ -128,7 +128,7 @@ const LoginPage = ({ user, history, loginUser }) => {
       setIsLoading(true)
       setIsOpen(true)
       const userToLogIn = { email, password };
-      const response = await axios.post(`http://localhost:4000/api/user/login`, userToLogIn)
+      const response = await axios.post(`https://gaming-global-api.herokuapp.com/api/user/login`, userToLogIn)
       // console.log(response)
       if(response.data) {
         setIsLoading(false)

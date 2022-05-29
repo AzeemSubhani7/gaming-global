@@ -74,7 +74,7 @@ const FortnitePatchPage = (props) => {
               <div key={x._id} className="p-3 mt-10 flex flex-col justify-center mx-auto">
           <div className="mt-2 px-32">
             <div className="h-auto w-full py-20 px-10 bg-gradient-to-tr relative from-indigo-600 to-blue-300 flex flex-col space-y-5 mx-auto rounded-3xl shadow-xl hover:rotate-1 transition-transform">
-            {props.user.role === 'root' ? 
+            {props.user && props.user.role === 'root' ? 
                 <p><XCircleIcon 
                 onClick={() => deletePatch(x._id)}
                 className='h-6 w-6 hover:text-secondary absolute top-4 right-4 cursor-pointer transition-all duration-300 transform hover:scale-110 text-white' /></p>

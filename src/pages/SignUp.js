@@ -128,7 +128,7 @@ const SignUpPage = ({ loginUser, user }) => {
           password
         }
         // console.log(userToRegister)
-        const postResponse =await axios.post(`http://localhost:4000/api/user`, userToRegister, {headers:{"Content-Type" : "application/json"}})
+        const postResponse =await axios.post(`https://gaming-global-api.herokuapp.com/api/user`, userToRegister, {headers:{"Content-Type" : "application/json"}})
         loginUser(postResponse.data)
         alert("user Registered!")
         history.push("/")

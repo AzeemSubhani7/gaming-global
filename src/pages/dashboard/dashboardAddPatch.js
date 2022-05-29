@@ -92,7 +92,7 @@ const DashboardAddPatch = () => {
         for: forGame
       }
       // console.log(userToRegister)
-      const postResponse =await axios.post(`http://localhost:4000/addpatch`, patchToAdd, {headers:{"Content-Type" : "application/json"}})
+      const postResponse =await axios.post(`https://gaming-global-api.herokuapp.com/addpatch`, patchToAdd, {headers:{"Content-Type" : "application/json"}})
     
       if(postResponse) {
         setFlag(true)
